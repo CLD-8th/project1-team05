@@ -128,4 +128,13 @@ public class BookController {
 
         return "교환 요청이 완료되었습니다.";
     }
+
+    @PostMapping("/{id}/cache/reset")
+    @ResponseBody
+    public String resetCache(@PathVariable Long id) {
+
+        redisService.deleteBookCache(id);
+
+        return "OK";
+    }
 }

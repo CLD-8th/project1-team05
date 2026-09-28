@@ -25,7 +25,6 @@
             <a href="/">홈</a>
             <a href="/books">도서 목록</a>
 
-            <!-- 로그인한 사용자만 도서 등록 표시 -->
             <a href="/books/new"
                th:if="${session.loginMember != null}">
                 도서 등록
@@ -65,9 +64,12 @@
         <a href="/books">← 도서 목록으로</a>
     </div>
 
+
     <section class="book-detail-layout">
 
-        <!-- 도서 표지 -->
+        <!-- =========================
+             도서 표지
+        ========================== -->
         <div class="detail-cover">
 
             <img th:if="${book.imageName != null}"
@@ -90,38 +92,38 @@
         </div>
 
 
-        <!-- 도서 정보 -->
+        <!-- =========================
+             도서 정보
+        ========================== -->
         <div class="detail-content">
 
-            <span
-                    class="status available"
-                    th:if="${book.status == 'AVAILABLE'}">
+            <!-- 상태 -->
+            <span class="status available"
+                  th:if="${book.status == 'AVAILABLE'}">
                 교환 가능
             </span>
 
-            <span
-                    class="status requested"
-                    th:if="${book.status == 'REQUESTED'}">
+            <span class="status requested"
+                  th:if="${book.status == 'REQUESTED'}">
                 교환 요청 중
             </span>
 
-            <span
-                    class="status"
-                    th:if="${book.status == 'EXCHANGED'}">
+            <span class="status"
+                  th:if="${book.status == 'EXCHANGED'}">
                 교환 완료
             </span>
 
 
+            <!-- 제목 -->
             <h2 th:text="${book.title}">
                 도서 제목
             </h2>
 
 
+            <!-- 저자 -->
             <div class="detail-author">
 
-                <span>
-                    저자
-                </span>
+                <span>저자</span>
 
                 <strong th:text="${book.author}">
                     저자 이름
@@ -133,11 +135,10 @@
             <hr>
 
 
+            <!-- 도서 설명 -->
             <div class="detail-description">
 
-                <h3>
-                    도서 설명
-                </h3>
+                <h3>도서 설명</h3>
 
                 <p th:text="${book.description}">
                     도서 설명
@@ -145,118 +146,379 @@
 
             </div>
 
-            <!-- 조회수 - 현재는 Redis 구현 전 더미 데이터 -->
-            <div class="view-count">
-                <span>👁 조회수</span>
-                <strong th:text="${viewCount} + '회'">0회</strong>
-            </div>
 
-            <!-- Redis 캐시 정보 - 현재는 화면 구성용 더미 데이터 -->
+            <!-- =====================================================
+                 Redis 상세 조회 캐시
+            ====================================================== -->
             <div class="cache-info">
 
                 <div class="cache-info-title">
                     ⚡ Redis 상세 조회 캐시
                 </div>
 
-                <p class="cache-description">
-                    자주 조회되는 도서 상세 정보를 Redis 메모리에 캐싱하여
-                    동일한 도서를 다시 조회할 때 MySQL에 반복적으로 접근하지 않고
-                    Redis에서 빠르게 데이터를 가져옵니다.
-                </p>
 
-                <div class="cache-info-content">
-                    <span>캐시 상태</span>
+                <!-- =================================================
+                     HIT
+                ================================================== -->
+                <div class="cache-status-panel"
+                     th:if="${cacheHit}">
 
-                    <strong th:if="${cacheHit}">HIT</strong>
-                    <strong th:unless="${cacheHit}">MISS</strong>
-                </div>
+                    <!-- 현재 상태 -->
+                    <div class="cache-status-main">
 
-                <div class="cache-info-content">
-                    <span>캐시 Key</span>
-                    <code th:text="'book:' + ${book.id}">book:1</code>
-                </div>
+                        <span class="cache-status-icon">
+                            🟢
+                        </span>
 
-                <div class="cache-info-content">
-                    <span>데이터 출처</span>
+                        <div>
+                            <strong class="cache-status-text">
+                                HIT
+                            </strong>
 
-                    <strong th:if="${cacheHit}">
-                        Redis Cache
-                    </strong>
+                            <p>
+                                Redis에서 도서 정보를 가져왔습니다.
+                            </p>
+                        </div>
 
-                    <strong th:unless="${cacheHit}">
-                        MySQL
-                    </strong>
-                </div>
-
-                <div class="cache-flow">
-                    <strong>현재 조회 흐름</strong>
-
-                    <!-- HIT -->
-                    <div class="cache-flow-box"
-                         th:if="${cacheHit}">
-                        도서 상세 요청
-                        <span>→</span>
-                        Redis 확인
-                        <span>→</span>
-                        HIT
-                        <span>→</span>
-                        Redis 데이터 반환
                     </div>
 
-                    <!-- MISS -->
-                    <div class="cache-flow-box"
-                         th:unless="${cacheHit}">
-                        도서 상세 요청
-                        <span>→</span>
-                        Redis 확인
-                        <span>→</span>
-                        MISS
-                        <span>→</span>
-                        MySQL 조회
-                        <span>→</span>
-                        Redis 저장
+
+                    <!-- 조회 흐름 -->
+                    <div class="cache-step-list">
+
+                        <!-- 1 -->
+                        <div class="cache-step">
+
+                            <span>1</span>
+
+                            <div>
+                                <strong>
+                                    Redis 확인
+                                </strong>
+
+                                <p th:text="'Key : book:' + ${book.id}">
+                                    Key : book:1
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="cache-step-arrow">
+                            ↓
+                        </div>
+
+
+                        <!-- 2 -->
+                        <div class="cache-step">
+
+                            <span>2</span>
+
+                            <div>
+                                <strong>
+                                    캐시 발견 (HIT)
+                                </strong>
+
+                                <p>
+                                    Redis에 저장된 도서 정보를 발견했습니다.
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="cache-step-arrow">
+                            ↓
+                        </div>
+
+
+                        <!-- 3 -->
+                        <div class="cache-step">
+
+                            <span>3</span>
+
+                            <div>
+                                <strong>
+                                    Redis 데이터 반환
+                                </strong>
+
+                                <p>
+                                    MySQL을 다시 조회하지 않고
+                                    Redis의 데이터를 사용했습니다.
+                                </p>
+                            </div>
+
+                        </div>
+
                     </div>
+
+
+                    <!-- 결과 -->
+                    <div class="cache-result success">
+                        ✅ 이번 조회에서는 MySQL을 조회하지 않았습니다.
+                    </div>
+
+
+                    <!-- 직접 확인 -->
+                    <div class="cache-action">
+
+                        <p>
+                            캐시를 삭제하면
+                            <strong>MISS</strong>,
+                            계속 조회하면
+                            <strong>HIT</strong>가 발생합니다.
+                        </p>
+
+                        <p>
+                            캐시를 삭제하면 다음 조회에서 <strong>MISS</strong>,
+                            다시 조회하면 <strong>HIT</strong>를 확인할 수 있습니다.
+                        </p>
+
+                        <div class="cache-action-row">
+
+                            <!-- MISS 확인 -->
+                            <button type="button"
+                                    class="cache-reset-button"
+                                    th:onclick="'resetCache(' + ${book.id} + ')'">
+
+                                🗑 캐시 삭제
+
+                            </button>
+
+
+                            <!-- HIT 계속 확인 -->
+                            <button type="button"
+                                    class="cache-refresh-button"
+                                    onclick="location.reload()">
+
+                                🔄 다시 조회
+                            </button>
+
+
+                            <!-- 조회수 -->
+                            <div class="cache-view-counter">
+
+                                <span>
+                                    👁 현재 조회수
+                                </span>
+
+                                <strong th:text="${viewCount} + '회'">
+                                    0회
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div class="cache-benefit">
-                    <strong>Redis를 사용하는 이유</strong>
 
-                    <ul>
-                        <li>반복되는 도서 상세 조회의 응답 속도를 높일 수 있습니다.</li>
-                        <li>MySQL에 전달되는 반복 조회 요청을 줄일 수 있습니다.</li>
-                        <li>조회 요청이 많아져도 데이터베이스의 부하를 줄이는 데 도움이 됩니다.</li>
-                        <li>도서 ID를 <code>book:{id}</code> 형태의 Key로 관리하기 쉽습니다.</li>
-                    </ul>
+                <!-- =================================================
+                     MISS
+                ================================================== -->
+                <div class="cache-status-panel"
+                     th:unless="${cacheHit}">
+
+                    <!-- 현재 상태 -->
+                    <div class="cache-status-main">
+
+                        <span class="cache-status-icon">
+                            🟠
+                        </span>
+
+                        <div>
+                            <strong class="cache-status-text">
+                                MISS
+                            </strong>
+
+                            <p>
+                                Redis에 저장된 도서 정보가 없었습니다.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <!-- 조회 흐름 -->
+                    <div class="cache-step-list">
+
+                        <!-- 1 -->
+                        <div class="cache-step">
+
+                            <span>1</span>
+
+                            <div>
+                                <strong>
+                                    Redis 확인
+                                </strong>
+
+                                <p th:text="'Key : book:' + ${book.id}">
+                                    Key : book:1
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="cache-step-arrow">
+                            ↓
+                        </div>
+
+
+                        <!-- 2 -->
+                        <div class="cache-step">
+
+                            <span>2</span>
+
+                            <div>
+                                <strong>
+                                    캐시 없음 (MISS)
+                                </strong>
+
+                                <p>
+                                    Redis에서 도서 정보를 찾지 못했습니다.
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="cache-step-arrow">
+                            ↓
+                        </div>
+
+
+                        <!-- 3 -->
+                        <div class="cache-step">
+
+                            <span>3</span>
+
+                            <div>
+                                <strong>
+                                    MySQL 조회
+                                </strong>
+
+                                <p>
+                                    MySQL에서 실제 도서 정보를 가져왔습니다.
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="cache-step-arrow">
+                            ↓
+                        </div>
+
+
+                        <!-- 4 -->
+                        <div class="cache-step">
+
+                            <span>4</span>
+
+                            <div>
+                                <strong>
+                                    Redis 저장
+                                </strong>
+
+                                <p>
+                                    가져온 데이터를
+
+                                    <code th:text="'book:' + ${book.id}">
+                                        book:1
+                                    </code>
+
+                                    Key로 저장했습니다.
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- 결과 -->
+                    <div class="cache-result">
+                        💡 MySQL에서 가져온 데이터가 지금 Redis에 저장되었습니다.
+                    </div>
+
+
+                    <!-- 직접 확인 -->
+                    <div class="cache-action">
+
+                        <p>
+                            방금 Redis에 데이터가 저장되었습니다.
+                            다시 조회하면 <strong>HIT</strong>가 발생합니다.
+                        </p>
+
+
+                        <div class="cache-action-row">
+
+                            <!-- 캐시 다시 삭제 -->
+                            <button type="button"
+                                    class="cache-reset-button"
+                                    th:onclick="'resetCache(' + ${book.id} + ')'">
+
+                                🗑 캐시 다시 초기화
+
+                            </button>
+
+
+                            <!-- HIT 확인 -->
+                            <button type="button"
+                                    class="cache-refresh-button"
+                                    onclick="location.reload()">
+
+                                🔄 다시 조회 → HIT 확인
+
+                            </button>
+
+
+                            <!-- 조회수 -->
+                            <div class="cache-view-counter">
+
+                                <span>
+                                    👁 현재 조회수
+                                </span>
+
+                                <strong th:text="${viewCount} + '회'">
+                                    0회
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =============================================
+                     Redis 설명
+                ============================================== -->
+                <div class="cache-summary">
+
+                    <strong>
+                        💡 왜 Redis를 사용할까요?
+                    </strong>
+
+                    <p>
+                        자주 조회되는 도서 정보를 Redis에 저장해 두면,
+                        같은 도서를 다시 조회할 때 MySQL 조회를 줄일 수 있어
+                        응답 속도를 높이고 데이터베이스의 부하를 줄일 수 있습니다.
+                    </p>
+
                 </div>
 
             </div>
 
-            <!-- Redis 캐시 정보 - 현재는 화면 구성용 더미 데이터 -->
-            <div class="cache-info">
 
-                <div class="cache-info-title">
-                    ⚡ Redis 캐시 정보
-                </div>
-
-                <div class="cache-info-content">
-                    <span>캐시 상태</span>
-                    <strong>HIT</strong>
-                </div>
-
-                <div class="cache-info-content">
-                    <span>캐시 Key</span>
-                    <code th:text="'book:' + ${book.id}">book:1</code>
-                </div>
-
-                <div class="cache-info-content">
-                    <span>데이터 출처</span>
-                    <strong>Redis Cache</strong>
-                </div>
-
-            </div>
-
-
-            <!-- 교환 요청 -->
+            <!-- =====================================================
+                 교환 요청
+            ====================================================== -->
             <div class="exchange-box">
 
                 <div>
@@ -272,9 +534,8 @@
                 </div>
 
 
-                <!-- 로그인한 경우 -->
-                <button
-                        th:if="${session.loginMember != null}"
+                <!-- 로그인 -->
+                <button th:if="${session.loginMember != null}"
                         id="exchangeButton"
                         class="button"
                         th:data-book-id="${book.id}"
@@ -285,11 +546,10 @@
                 </button>
 
 
-                <!-- 로그인하지 않은 경우 -->
-                <a
-                        th:if="${session.loginMember == null}"
-                        href="/login"
-                        class="button">
+                <!-- 비로그인 -->
+                <a th:if="${session.loginMember == null}"
+                   href="/login"
+                   class="button">
 
                     로그인 후 교환 요청
 
