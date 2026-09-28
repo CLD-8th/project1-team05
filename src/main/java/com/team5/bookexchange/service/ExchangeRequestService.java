@@ -13,13 +13,11 @@ public class ExchangeRequestService {
 
     public ExchangeRequestService(
             ExchangeRequestRepository exchangeRequestRepository) {
-
         this.exchangeRequestRepository = exchangeRequestRepository;
     }
 
     // 교환 요청 생성
     public ExchangeRequest create(Long bookId) {
-
         ExchangeRequest request = new ExchangeRequest();
 
         request.setBookId(bookId);
@@ -30,7 +28,11 @@ public class ExchangeRequestService {
 
     // 전체 교환 요청 조회
     public List<ExchangeRequest> findAll() {
-
         return exchangeRequestRepository.findAll();
+    }
+
+    // 전체 교환 요청 수
+    public long countAll() {
+        return exchangeRequestRepository.count();
     }
 }

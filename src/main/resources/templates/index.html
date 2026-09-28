@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,24 +41,26 @@
 
         <div class="hero-buttons">
             <a class="button" href="/books">📚 도서 둘러보기</a>
-            <a class="button button-secondary" href="/books/new">＋ 도서 등록하기</a>
+            <a class="button button-secondary" href="/books/new">
+                ＋ 도서 등록하기
+            </a>
         </div>
     </section>
 
     <section class="stats">
 
         <div class="stat-card">
-            <strong>12</strong>
+            <strong th:text="${bookCount}">0</strong>
             <span>등록된 도서</span>
         </div>
 
         <div class="stat-card">
-            <strong>8</strong>
+            <strong th:text="${availableCount}">0</strong>
             <span>교환 가능</span>
         </div>
 
         <div class="stat-card">
-            <strong>4</strong>
+            <strong th:text="${exchangeCount}">0</strong>
             <span>교환 요청</span>
         </div>
 
@@ -75,54 +77,55 @@
             <a href="/books">전체보기 →</a>
         </div>
 
-        <div class="book-grid">
+        <div class="book-grid"
+             th:if="${!#lists.isEmpty(recentBooks)}">
 
-            <article class="book-preview">
-                <div class="book-cover cover-blue">AWS</div>
+            <article class="book-preview"
+                     th:each="book : ${recentBooks}">
+
+                <div class="book-cover cover-blue">
+                    <img th:if="${book.imageName != null}"
+                         th:src="@{/uploads/books/{imageName}(imageName=${book.imageName})}"
+                         th:alt="${book.title}">
+
+                    <span th:if="${book.imageName == null}">
+                        📖
+                    </span>
+                </div>
 
                 <div class="book-info">
-                    <span class="status available">교환 가능</span>
+                    <span class="status"
+                          th:classappend="${book.status == 'AVAILABLE'} ? 'available' : 'requested'"
+                          th:text="${book.status == 'AVAILABLE' ? '교환 가능'
+                              : (book.status == 'REQUESTED' ? '교환 요청 중'
+                              : (book.status == 'EXCHANGED' ? '교환 완료' : book.status))}">
+                        상태
+                    </span>
 
-                    <h3>클라우드 입문</h3>
-                    <p class="author">홍길동</p>
+                    <h3 th:text="${book.title}">도서 제목</h3>
 
-                    <p class="description">
-                        AWS와 클라우드의 기본 개념을 공부할 수 있는 책입니다.
+                    <p class="author"
+                       th:text="${book.author}">
+                        저자
                     </p>
-                </div>
-            </article>
 
-            <article class="book-preview">
-                <div class="book-cover cover-green">JAVA</div>
-
-                <div class="book-info">
-                    <span class="status available">교환 가능</span>
-
-                    <h3>자바의 정석</h3>
-                    <p class="author">남궁성</p>
-
-                    <p class="description">
-                        Java 기본 문법부터 객체지향 개념까지 정리된 책입니다.
+                    <p class="description"
+                       th:text="${book.description}">
+                        도서 설명
                     </p>
+
+                    <a th:href="@{/books/{id}(id=${book.id})}">
+                        상세보기 →
+                    </a>
                 </div>
-            </article>
 
-            <article class="book-preview">
-                <div class="book-cover cover-orange">LINUX</div>
-
-                <div class="book-info">
-                    <span class="status requested">교환 요청 중</span>
-
-                    <h3>리눅스 서버 입문</h3>
-                    <p class="author">김서버</p>
-
-                    <p class="description">
-                        리눅스 명령어와 서버 운영 기초를 다루는 입문서입니다.
-                    </p>
-                </div>
             </article>
 
         </div>
+
+        <p th:if="${#lists.isEmpty(recentBooks)}">
+            아직 등록된 도서가 없습니다.
+        </p>
 
     </section>
 
@@ -134,8 +137,6 @@
         <span>중고 도서 교환 프로젝트 · Team 05</span>
     </div>
 </footer>
-
-<script src="/app.js"></script>
 
 </body>
 </html>
