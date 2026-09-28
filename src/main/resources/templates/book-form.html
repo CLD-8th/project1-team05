@@ -8,6 +8,13 @@
 
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/book-form.css">
+
+    <!-- FilePond -->
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+
+    <!-- FilePond 이미지 미리보기 -->
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+          rel="stylesheet">
 </head>
 
 <body>
@@ -41,60 +48,59 @@
 
         <div class="form-box">
 
-            <form
-                    id="bookForm"
-                    action="/books"
-                    method="post">
+            <form action="/books"
+                  method="post"
+                  enctype="multipart/form-data">
 
                 <div class="form-group">
-
-                    <label for="title">
-                        도서 제목
-                    </label>
+                    <label for="title">도서 제목</label>
 
                     <input
                             id="title"
                             name="title"
                             type="text"
                             maxlength="255"
-                            placeholder="예: 클라우드 입문"
                             required>
-
                 </div>
 
                 <div class="form-group">
-
-                    <label for="author">
-                        저자
-                    </label>
+                    <label for="author">저자</label>
 
                     <input
                             id="author"
                             name="author"
                             type="text"
                             maxlength="255"
-                            placeholder="예: 홍길동"
                             required>
-
                 </div>
 
                 <div class="form-group">
-
-                    <label for="description">
-                        도서 설명
-                    </label>
+                    <label for="description">도서 설명</label>
 
                     <textarea
                             id="description"
                             name="description"
                             maxlength="255"
-                            placeholder="책의 상태나 교환하고 싶은 이유 등을 적어주세요."
                             required></textarea>
 
                     <div class="character-count">
                         <span id="descriptionCount">0</span> / 255
                     </div>
+                </div>
 
+                <div class="form-group">
+                    <label for="bookImage">도서 표지</label>
+
+                    <input
+                            id="bookImage"
+                            class="filepond"
+                            name="image"
+                            type="file"
+                            accept="image/png,image/jpeg,image/webp">
+
+                    <p class="upload-help">
+                        PNG, JPG, JPEG, WebP 이미지를 등록할 수 있습니다.
+                    </p>
                 </div>
 
                 <div class="form-notice">
@@ -132,17 +138,18 @@
                 📚
             </div>
 
-            <h3>어떤 책을 등록할까요?</h3>
+            <h3>도서 등록 안내</h3>
 
             <p>
-                더 이상 읽지 않는 책이나
-                다른 책과 교환하고 싶은 도서를 등록해보세요.
+                교환할 도서의 정보를 입력하고
+                표지 이미지를 등록해주세요.
             </p>
 
             <ul>
-                <li>정확한 도서 제목</li>
-                <li>저자 이름</li>
-                <li>간단한 책 상태 설명</li>
+                <li>도서 제목</li>
+                <li>저자</li>
+                <li>도서 설명</li>
+                <li>도서 표지 이미지</li>
             </ul>
 
         </aside>
@@ -158,7 +165,20 @@
     </div>
 </footer>
 
-<script src="/app.js"></script>
+<!-- FilePond 파일 형식 검사 -->
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+
+<!-- FilePond 파일 크기 검사 -->
+<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+
+<!-- FilePond 이미지 미리보기 -->
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+
+<!-- FilePond 본체 -->
+<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+
+<!-- 도서 등록 페이지 -->
+<script src="/js/book-form.js"></script>
 
 </body>
 </html>

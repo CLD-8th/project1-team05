@@ -69,8 +69,17 @@
                 th:data-author="${book.author}"
                 th:data-status="${book.status}">
 
-            <div class="book-cover cover-blue">
-                BOOK
+            <div class="book-cover">
+
+                <img th:if="${book.imageName != null}"
+                     th:src="@{/uploads/books/{imageName}(imageName=${book.imageName})}"
+                     th:alt="${book.title}">
+
+                <div class="book-cover-empty"
+                     th:if="${book.imageName == null}">
+                    📖
+                </div>
+
             </div>
 
             <div class="book-info">
@@ -123,7 +132,7 @@
     </div>
 </footer>
 
-<script src="/app.js"></script>
+<script src="/js/books.js"></script>
 
 </body>
 </html>

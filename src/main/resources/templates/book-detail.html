@@ -39,11 +39,19 @@
     <section class="book-detail-layout">
 
         <div class="detail-cover">
-            <div class="detail-book-icon">
-                📖
+
+            <!-- 등록된 표지 이미지가 있는 경우 -->
+            <img th:if="${book.imageName != null}"
+                 th:src="@{/uploads/books/{imageName}(imageName=${book.imageName})}"
+                 th:alt="${book.title}">
+
+            <!-- 표지 이미지가 없는 기존 도서 -->
+            <div class="detail-cover-empty"
+                 th:if="${book.imageName == null}">
+                <div class="detail-book-icon">📖</div>
+                <span>등록된 표지가 없습니다.</span>
             </div>
 
-            <span>BOOK</span>
         </div>
 
         <div class="detail-content">
@@ -125,7 +133,8 @@
     </div>
 </footer>
 
-<script src="/app.js"></script>
+<script src="/js/book-detail.js"></script>
+
 
 </body>
 </html>

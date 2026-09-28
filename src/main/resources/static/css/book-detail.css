@@ -18,18 +18,39 @@
 }
 
 .detail-cover {
-    min-height: 420px;
-    padding: 30px;
+    height: 420px;
+    overflow: hidden;
+
     border-radius: 14px;
-    background: #e8f1ff;
+    background: #f1f3f5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.detail-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.detail-cover-empty {
+    width: 100%;
+    height: 100%;
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
+    color: #888;
     font-weight: bold;
-    letter-spacing: 3px;
+}
+
+.detail-book-icon {
+    margin-bottom: 15px;
+    font-size: 75px;
 }
 
 .detail-book-icon {
