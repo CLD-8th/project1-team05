@@ -1,0 +1,59 @@
+.exchange-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.exchange-card {
+    padding: 22px 25px;
+
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 25px;
+    align-items: center;
+
+    background: white;
+    border: 1px solid #e2e5e9;
+    border-radius: 12px;
+
+    transition: .2s;
+}
+
+.exchange-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(0, 0, 0, .05);
+}
+
+.exchange-number {
+    padding-right: 25px;
+    border-right: 1px solid #eee;
+}
+
+.exchange-number span,
+.exchange-label {
+    display: block;
+    margin-bottom: 7px;
+    color: #888;
+    font-size: 13px;
+}
+
+.exchange-number strong {
+    font-size: 24px;
+}
+
+.exchange-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: center;
+}
+
+.exchange-book-link {
+    color: #222;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.exchange-book-link:hover {
+    text-decoration: underline;
+}

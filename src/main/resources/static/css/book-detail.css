@@ -1,0 +1,88 @@
+.detail-navigation {
+    margin-bottom: 20px;
+}
+
+.detail-navigation a {
+    color: #666;
+    text-decoration: none;
+}
+
+.detail-navigation a:hover {
+    color: #111;
+}
+
+.book-detail-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+}
+
+.detail-cover {
+    min-height: 420px;
+    padding: 30px;
+    border-radius: 14px;
+    background: #e8f1ff;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.detail-book-icon {
+    margin-bottom: 15px;
+    font-size: 75px;
+}
+
+.detail-content {
+    padding: 35px;
+    background: white;
+    border: 1px solid #e2e5e9;
+    border-radius: 14px;
+}
+
+.detail-content h2 {
+    margin: 15px 0 25px;
+    font-size: 32px;
+}
+
+.detail-content hr {
+    margin: 28px 0;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+.detail-author {
+    display: flex;
+    gap: 20px;
+}
+
+.detail-author span {
+    color: #888;
+}
+
+.detail-description p {
+    color: #666;
+    line-height: 1.8;
+}
+
+.exchange-box {
+    margin-top: 35px;
+    padding: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #f6f7f9;
+    border-radius: 10px;
+}
+
+.exchange-box p {
+    margin: 6px 0 0;
+    color: #777;
+    font-size: 14px;
+}
