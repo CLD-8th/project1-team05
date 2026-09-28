@@ -27,11 +27,20 @@ public class AuthController {
     public String signup(
             @RequestParam String username,
             @RequestParam String password,
-            @RequestParam String name) {
+            @RequestParam String name,
+            Model model) {
 
-        memberService.signup(username, password, name);
+        try {
+            memberService.signup(username, password, name);
+            return "redirect:/login";
 
-        return "redirect:/login";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("username", username);
+            model.addAttribute("name", name);
+
+            return "signup";
+        }
     }
 
     // 로그인 화면

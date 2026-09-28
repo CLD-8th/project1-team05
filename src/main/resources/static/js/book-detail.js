@@ -28,6 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             );
 
+            if (response.status === 401) {
+                alert("로그인이 필요합니다. 다시 로그인해주세요.");
+                window.location.href = "/login";
+                return;
+            }
+
             if (!response.ok) {
                 throw new Error("교환 요청에 실패했습니다.");
             }
