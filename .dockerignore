@@ -1,0 +1,10 @@
+.gradle
+build
+.idea
+.git
+.gitignore
+
+uploads
+
+*.log
+.env
