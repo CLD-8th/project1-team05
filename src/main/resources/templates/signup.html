@@ -21,6 +21,11 @@
             중고 도서 교환 서비스를 시작해보세요.
         </p>
 
+        <div class="error-message"
+             th:if="${error}"
+             th:text="${error}">
+        </div>
+
         <form th:action="@{/signup}" method="post">
 
             <div class="form-group">
@@ -29,6 +34,7 @@
                         id="username"
                         name="username"
                         type="text"
+                        th:value="${username}"
                         placeholder="아이디를 입력하세요"
                         required>
             </div>
@@ -49,6 +55,7 @@
                         id="name"
                         name="name"
                         type="text"
+                        th:value="${name}"
                         placeholder="이름을 입력하세요"
                         required>
             </div>

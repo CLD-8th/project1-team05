@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @Controller
 @RequestMapping("/books")
@@ -70,8 +72,13 @@ public class BookController {
             @RequestParam String title,
             @RequestParam String author,
             @RequestParam String description,
-            @RequestParam(required = false) MultipartFile image) {
+            @RequestParam(required = false) MultipartFile image,
+            HttpSession session) {
 
+        // 로그인하지 않았다면 저장하지 않고 로그인 화면으로 이동
+        if (session.getAttribute("loginMember") == null) {
+            return "redirect:/login";
+        }
         Book book = new Book();
 
         book.setTitle(title);
@@ -114,19 +121,20 @@ public class BookController {
     // 교환 요청
     @PostMapping("/{id}/exchange")
     @ResponseBody
-    public String exchange(
+    public ResponseEntity<String> exchange(
             @PathVariable Long id,
             HttpSession session) {
 
         if (session.getAttribute("loginMember") == null) {
-            return "LOGIN_REQUIRED";
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("LOGIN_REQUIRED");
         }
 
         bookService.findById(id);
         exchangeRequestService.create(id);
         bookService.updateStatus(id, "REQUESTED");
-
-        return "교환 요청이 완료되었습니다.";
+        return ResponseEntity.ok("교환 요청이 완료되었습니다.");
     }
 
     @PostMapping("/{id}/cache/reset")
