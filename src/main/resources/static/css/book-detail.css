@@ -1,3 +1,7 @@
+/* =========================
+   목록으로 돌아가기
+========================= */
+
 .detail-navigation {
     margin-bottom: 20px;
 }
@@ -11,30 +15,53 @@
     color: #111;
 }
 
+
+/* =========================
+   상세 페이지 전체 구조
+========================= */
+
 .book-detail-layout {
     display: grid;
     grid-template-columns: 300px 1fr;
     gap: 30px;
 }
 
+
+/* =========================
+   도서 표지
+========================= */
+
 .detail-cover {
     height: 420px;
-    overflow: hidden;
-
-    border-radius: 14px;
-    background: #f1f3f5;
+    padding: 15px;
 
     display: flex;
     align-items: center;
     justify-content: center;
+
+    overflow: hidden;
+
+    box-sizing: border-box;
+
+    background: #f5f6f7;
+    border: 1px solid #e2e5e9;
+    border-radius: 14px;
 }
 
+
+/* 실제 등록된 표지 이미지 */
 .detail-cover img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+
+    display: block;
+
+    /* 원본 비율 유지 + 전체 이미지 표시 */
+    object-fit: contain;
 }
 
+
+/* 표지가 없는 경우 */
 .detail-cover-empty {
     width: 100%;
     height: 100%;
@@ -50,31 +77,45 @@
 
 .detail-book-icon {
     margin-bottom: 15px;
+
     font-size: 75px;
 }
 
-.detail-book-icon {
-    margin-bottom: 15px;
-    font-size: 75px;
-}
+
+/* =========================
+   도서 상세 정보
+========================= */
 
 .detail-content {
     padding: 35px;
-    background: white;
+
+    background: #fff;
+
     border: 1px solid #e2e5e9;
     border-radius: 14px;
 }
 
+
+/* 도서 제목 */
 .detail-content h2 {
     margin: 15px 0 25px;
+
     font-size: 32px;
 }
 
+
+/* 구분선 */
 .detail-content hr {
     margin: 28px 0;
+
     border: 0;
     border-top: 1px solid #eee;
 }
+
+
+/* =========================
+   저자
+========================= */
 
 .detail-author {
     display: flex;
@@ -85,10 +126,30 @@
     color: #888;
 }
 
-.detail-description p {
-    color: #666;
-    line-height: 1.8;
+
+/* =========================
+   도서 설명
+========================= */
+
+.detail-description h3 {
+    margin-bottom: 10px;
 }
+
+.detail-description p {
+    margin: 0;
+
+    color: #666;
+
+    line-height: 1.8;
+
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+
+/* =========================
+   교환 요청
+========================= */
 
 .exchange-box {
     margin-top: 35px;
@@ -97,13 +158,20 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 20px;
 
     background: #f6f7f9;
+
     border-radius: 10px;
 }
 
 .exchange-box p {
     margin: 6px 0 0;
+
     color: #777;
     font-size: 14px;
+}
+
+.exchange-box .button {
+    flex-shrink: 0;
 }
