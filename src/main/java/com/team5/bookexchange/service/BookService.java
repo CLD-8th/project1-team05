@@ -24,4 +24,21 @@ public class BookService {
     public Book save(Book book) {
         return bookRepository.save(book);
     }
+
+    // 상세 조회
+    public Book findById(Long id) {
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("도서를 찾을 수 없습니다."));
+    }
+
+    // 도서 상태 변경
+    public void updateStatus(Long id, String status) {
+
+        Book book = findById(id);
+
+        book.setStatus(status);
+
+        bookRepository.save(book);
+    }
+
 }

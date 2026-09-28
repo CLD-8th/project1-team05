@@ -2,22 +2,139 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>중고 도서 교환</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookExchange</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
 
-<h1>📚 중고 도서 교환</h1>
+<header>
+    <div class="header-inner">
+        <h1 class="logo">
+            <a href="/">📚 BookExchange</a>
+        </h1>
 
-<p>읽지 않는 책을 다른 사람과 교환해보세요.</p>
+        <nav>
+            <a href="/">홈</a>
+            <a href="/books">도서 목록</a>
+            <a href="/books/new">도서 등록</a>
+        </nav>
+    </div>
+</header>
 
-<hr>
+<main class="container">
 
-<h2>등록된 도서</h2>
+    <section class="hero">
+        <div class="hero-badge">📖 중고 도서 교환 서비스</div>
 
-<p>아직 등록된 도서가 없습니다.</p>
+        <h2>
+            책장 속 잠든 책을<br>
+            새로운 책과 바꿔보세요.
+        </h2>
 
-<a href="/books/new">도서 등록하기</a>
+        <p>
+            더 이상 읽지 않는 책을 등록하고,<br>
+            다른 사람이 등록한 책을 둘러보세요.
+        </p>
+
+        <div class="hero-buttons">
+            <a class="button" href="/books">📚 도서 둘러보기</a>
+            <a class="button button-secondary" href="/books/new">＋ 도서 등록하기</a>
+        </div>
+    </section>
+
+    <section class="stats">
+
+        <div class="stat-card">
+            <strong>12</strong>
+            <span>등록된 도서</span>
+        </div>
+
+        <div class="stat-card">
+            <strong>8</strong>
+            <span>교환 가능</span>
+        </div>
+
+        <div class="stat-card">
+            <strong>4</strong>
+            <span>교환 요청</span>
+        </div>
+
+    </section>
+
+    <section class="recent-section">
+
+        <div class="section-title">
+            <div>
+                <h2>최근 등록된 도서</h2>
+                <p>새롭게 등록된 책을 확인해보세요.</p>
+            </div>
+
+            <a href="/books">전체보기 →</a>
+        </div>
+
+        <div class="book-grid">
+
+            <article class="book-preview">
+                <div class="book-cover cover-blue">AWS</div>
+
+                <div class="book-info">
+                    <span class="status available">교환 가능</span>
+
+                    <h3>클라우드 입문</h3>
+                    <p class="author">홍길동</p>
+
+                    <p class="description">
+                        AWS와 클라우드의 기본 개념을 공부할 수 있는 책입니다.
+                    </p>
+                </div>
+            </article>
+
+            <article class="book-preview">
+                <div class="book-cover cover-green">JAVA</div>
+
+                <div class="book-info">
+                    <span class="status available">교환 가능</span>
+
+                    <h3>자바의 정석</h3>
+                    <p class="author">남궁성</p>
+
+                    <p class="description">
+                        Java 기본 문법부터 객체지향 개념까지 정리된 책입니다.
+                    </p>
+                </div>
+            </article>
+
+            <article class="book-preview">
+                <div class="book-cover cover-orange">LINUX</div>
+
+                <div class="book-info">
+                    <span class="status requested">교환 요청 중</span>
+
+                    <h3>리눅스 서버 입문</h3>
+                    <p class="author">김서버</p>
+
+                    <p class="description">
+                        리눅스 명령어와 서버 운영 기초를 다루는 입문서입니다.
+                    </p>
+                </div>
+            </article>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <strong>📚 BookExchange</strong>
+        <span>중고 도서 교환 프로젝트 · Team 05</span>
+    </div>
+</footer>
+
+<script src="/app.js"></script>
 
 </body>
 </html>

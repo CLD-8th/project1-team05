@@ -1,0 +1,560 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-width: 760px;
+    font-family: Arial, "Noto Sans KR", sans-serif;
+    background: #f6f7f9;
+    color: #202124;
+}
+
+header {
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.header-inner,
+.container,
+.footer-inner {
+    width: min(1100px, calc(100% - 60px));
+    margin: 0 auto;
+}
+
+.header-inner {
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    margin: 0;
+    font-size: 24px;
+}
+
+.logo a {
+    color: #202124;
+    text-decoration: none;
+}
+
+nav {
+    display: flex;
+    gap: 30px;
+}
+
+nav a {
+    color: #555;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+nav a:hover {
+    color: #111;
+}
+
+.container {
+    padding: 40px 0 70px;
+}
+
+.hero {
+    min-height: 360px;
+    padding: 65px;
+    border-radius: 18px;
+    background: #fff;
+    border: 1px solid #e2e5e9;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-badge {
+    padding: 8px 14px;
+    margin-bottom: 18px;
+    border-radius: 30px;
+    background: #f1f3f5;
+    font-size: 14px;
+}
+
+.hero h2 {
+    margin: 0;
+    font-size: 38px;
+    line-height: 1.35;
+}
+
+.hero p {
+    margin: 20px 0 28px;
+    color: #6b7280;
+    line-height: 1.7;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.button {
+    display: inline-block;
+    padding: 12px 20px;
+    border: 0;
+    border-radius: 8px;
+    background: #242424;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.button:hover {
+    transform: translateY(-1px);
+    opacity: .9;
+}
+
+.button-secondary {
+    background: #65676b;
+}
+
+.stats {
+    margin: 25px 0 55px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.stat-card {
+    padding: 22px;
+    border: 1px solid #e2e5e9;
+    border-radius: 12px;
+    background: #fff;
+    text-align: center;
+}
+
+.stat-card strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 27px;
+}
+
+.stat-card span {
+    color: #777;
+    font-size: 14px;
+}
+
+.section-title {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.section-title h2 {
+    margin: 0 0 6px;
+}
+
+.section-title p {
+    margin: 0;
+    color: #777;
+}
+
+.section-title a {
+    color: #555;
+    text-decoration: none;
+}
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.book-preview {
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e2e5e9;
+    border-radius: 13px;
+    transition: .2s;
+}
+
+.book-preview:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .07);
+}
+
+.book-cover {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.cover-blue {
+    background: #e8f1ff;
+}
+
+.cover-green {
+    background: #e7f5ed;
+}
+
+.cover-orange {
+    background: #fff0df;
+}
+
+.book-info {
+    padding: 20px;
+}
+
+.book-info h3 {
+    margin: 12px 0 5px;
+}
+
+.author {
+    margin: 0 0 13px;
+    color: #777;
+    font-size: 14px;
+}
+
+.description {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.available {
+    background: #e8f5e9;
+    color: #287a36;
+}
+
+.requested {
+    background: #fff3df;
+    color: #9a6516;
+}
+
+.form-box,
+.detail-box,
+.book-card {
+    padding: 28px;
+    border: 1px solid #e2e5e9;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.search-input,
+.filter-select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d4d7dc;
+    border-radius: 7px;
+    background: #fff;
+    font: inherit;
+}
+
+.form-group textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+footer {
+    background: #fff;
+    border-top: 1px solid #e5e7eb;
+}
+
+.footer-inner {
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #777;
+    font-size: 14px;
+}
+
+.footer-inner strong {
+    color: #333;
+}
+
+.book-preview.selected {
+    outline: 2px solid #555;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.page-header h2 {
+    margin: 0 0 7px;
+    font-size: 30px;
+}
+
+.page-header p {
+    margin: 0;
+    color: #777;
+}
+
+.book-toolbar {
+    display: grid;
+    grid-template-columns: 1fr 190px;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.detail-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.detail-link:hover {
+    text-decoration: underline;
+}
+
+.empty-result {
+    display: none;
+    padding: 60px;
+    text-align: center;
+    color: #777;
+    background: white;
+    border: 1px solid #e2e5e9;
+    border-radius: 12px;
+}
+
+.form-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.form-help {
+    padding: 30px;
+    background: white;
+    border: 1px solid #e2e5e9;
+    border-radius: 12px;
+}
+
+.form-help h3 {
+    margin: 15px 0 10px;
+}
+
+.form-help p,
+.form-help li {
+    color: #666;
+    line-height: 1.7;
+}
+
+.form-help ul {
+    padding-left: 20px;
+}
+
+.help-icon {
+    font-size: 45px;
+}
+
+.form-notice {
+    margin-top: 25px;
+    padding: 17px;
+    background: #f6f7f9;
+    border-radius: 8px;
+}
+
+.form-notice p {
+    margin: 8px 0 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.character-count {
+    margin-top: 6px;
+    text-align: right;
+    color: #888;
+    font-size: 12px;
+}
+
+.detail-navigation {
+    margin-bottom: 20px;
+}
+
+.detail-navigation a {
+    color: #666;
+    text-decoration: none;
+}
+
+.detail-navigation a:hover {
+    color: #111;
+}
+
+.book-detail-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+}
+
+.detail-cover {
+    min-height: 420px;
+    padding: 30px;
+    border-radius: 14px;
+    background: #e8f1ff;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.detail-book-icon {
+    margin-bottom: 15px;
+    font-size: 75px;
+}
+
+.detail-content {
+    padding: 35px;
+    background: white;
+    border: 1px solid #e2e5e9;
+    border-radius: 14px;
+}
+
+.detail-content h2 {
+    margin: 15px 0 25px;
+    font-size: 32px;
+}
+
+.detail-content hr {
+    margin: 28px 0;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+.detail-author {
+    display: flex;
+    gap: 20px;
+}
+
+.detail-author span {
+    color: #888;
+}
+
+.detail-description p {
+    color: #666;
+    line-height: 1.8;
+}
+
+.exchange-box {
+    margin-top: 35px;
+    padding: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #f6f7f9;
+    border-radius: 10px;
+}
+
+.exchange-box p {
+    margin: 6px 0 0;
+    color: #777;
+    font-size: 14px;
+}
+
+.button:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.exchange-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.exchange-card {
+    padding: 22px 25px;
+
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 25px;
+    align-items: center;
+
+    background: white;
+    border: 1px solid #e2e5e9;
+    border-radius: 12px;
+
+    transition: .2s;
+}
+
+.exchange-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(0, 0, 0, .05);
+}
+
+.exchange-number {
+    padding-right: 25px;
+    border-right: 1px solid #eee;
+}
+
+.exchange-number span,
+.exchange-label {
+    display: block;
+    margin-bottom: 7px;
+
+    color: #888;
+    font-size: 13px;
+}
+
+.exchange-number strong {
+    font-size: 24px;
+}
+
+.exchange-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: center;
+}
+
+.exchange-book-link {
+    color: #222;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.exchange-book-link:hover {
+    text-decoration: underline;
+}

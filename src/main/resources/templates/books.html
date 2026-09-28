@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>도서 목록 | BookExchange</title>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="header-inner">
+
+        <h1 class="logo">
+            <a href="/">📚 BookExchange</a>
+        </h1>
+
+        <nav>
+            <a href="/">홈</a>
+            <a href="/books">도서 목록</a>
+            <a href="/books/new">도서 등록</a>
+        </nav>
+
+    </div>
+</header>
+
+<main class="container">
+
+    <div class="page-header">
+        <div>
+            <h2>📚 도서 목록</h2>
+            <p>교환 가능한 도서를 찾아보세요.</p>
+        </div>
+
+        <a class="button" href="/books/new">
+            ＋ 도서 등록
+        </a>
+    </div>
+
+    <div class="book-toolbar">
+
+        <input
+                id="bookSearch"
+                class="search-input"
+                type="text"
+                placeholder="책 제목 또는 저자를 검색하세요">
+
+        <select id="statusFilter" class="filter-select">
+            <option value="ALL">전체 상태</option>
+            <option value="AVAILABLE">교환 가능</option>
+            <option value="REQUESTED">교환 요청 중</option>
+            <option value="EXCHANGED">교환 완료</option>
+        </select>
+
+    </div>
+
+    <div id="bookList" class="book-grid">
+
+        <article
+                class="book-preview"
+                th:each="book : ${books}"
+                th:data-title="${book.title}"
+                th:data-author="${book.author}"
+                th:data-status="${book.status}">
+
+            <div class="book-cover cover-blue">
+                BOOK
+            </div>
+
+            <div class="book-info">
+
+                <span
+                        class="status"
+                        th:classappend="${book.status == 'AVAILABLE'} ? ' available' : ' requested'"
+                        th:text="${book.status == 'AVAILABLE'} ? '교환 가능' : ${book.status}">
+                    상태
+                </span>
+
+                <h3 th:text="${book.title}">
+                    도서 제목
+                </h3>
+
+                <p
+                        class="author"
+                        th:text="${book.author}">
+                    저자
+                </p>
+
+                <p
+                        class="description"
+                        th:text="${book.description}">
+                    도서 설명
+                </p>
+
+                <a
+                        class="detail-link"
+                        th:href="@{/books/{id}(id=${book.id})}">
+                    상세보기 →
+                </a>
+
+            </div>
+
+        </article>
+
+    </div>
+
+    <div id="emptyResult" class="empty-result">
+        검색 결과가 없습니다.
+    </div>
+
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <strong>📚 BookExchange</strong>
+        <span>중고 도서 교환 프로젝트 · Team 05</span>
+    </div>
+</footer>
+
+<script src="/app.js"></script>
+
+</body>
+</html>

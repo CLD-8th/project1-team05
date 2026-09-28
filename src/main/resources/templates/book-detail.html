@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>도서 상세 | BookExchange</title>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="header-inner">
+
+        <h1 class="logo">
+            <a href="/">📚 BookExchange</a>
+        </h1>
+
+        <nav>
+            <a href="/">홈</a>
+            <a href="/books">도서 목록</a>
+            <a href="/books/new">도서 등록</a>
+        </nav>
+
+    </div>
+</header>
+
+<main class="container">
+
+    <div class="detail-navigation">
+        <a href="/books">← 도서 목록으로</a>
+    </div>
+
+    <section class="book-detail-layout">
+
+        <div class="detail-cover">
+            <div class="detail-book-icon">
+                📖
+            </div>
+
+            <span>BOOK</span>
+        </div>
+
+        <div class="detail-content">
+
+            <span
+                    class="status available"
+                    th:if="${book.status == 'AVAILABLE'}">
+                교환 가능
+            </span>
+
+            <span
+                    class="status requested"
+                    th:if="${book.status == 'REQUESTED'}">
+                교환 요청 중
+            </span>
+
+            <span
+                    class="status"
+                    th:if="${book.status == 'EXCHANGED'}">
+                교환 완료
+            </span>
+
+            <h2 th:text="${book.title}">
+                도서 제목
+            </h2>
+
+            <div class="detail-author">
+                <span>저자</span>
+
+                <strong th:text="${book.author}">
+                    저자 이름
+                </strong>
+            </div>
+
+            <hr>
+
+            <div class="detail-description">
+
+                <h3>도서 설명</h3>
+
+                <p th:text="${book.description}">
+                    도서 설명
+                </p>
+
+            </div>
+
+            <div class="exchange-box">
+
+                <div>
+                    <strong>이 책이 마음에 드시나요?</strong>
+
+                    <p>
+                        교환을 원하는 경우 요청을 보낼 수 있습니다.
+                    </p>
+                </div>
+
+                <button
+                        id="exchangeButton"
+                        class="button"
+                        th:data-book-id="${book.id}"
+                        th:disabled="${book.status != 'AVAILABLE'}">
+
+                    교환 요청하기
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <strong>📚 BookExchange</strong>
+        <span>중고 도서 교환 프로젝트 · Team 05</span>
+    </div>
+</footer>
+
+<script src="/app.js"></script>
+
+</body>
+</html>

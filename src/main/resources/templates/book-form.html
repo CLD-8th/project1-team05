@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>도서 등록 | BookExchange</title>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="header-inner">
+
+        <h1 class="logo">
+            <a href="/">📚 BookExchange</a>
+        </h1>
+
+        <nav>
+            <a href="/">홈</a>
+            <a href="/books">도서 목록</a>
+            <a href="/books/new">도서 등록</a>
+        </nav>
+
+    </div>
+</header>
+
+<main class="container">
+
+    <div class="page-header">
+        <div>
+            <h2>📖 도서 등록</h2>
+            <p>교환하고 싶은 책의 정보를 입력해주세요.</p>
+        </div>
+    </div>
+
+    <div class="form-layout">
+
+        <div class="form-box">
+
+            <form
+                    id="bookForm"
+                    action="/books"
+                    method="post">
+
+                <div class="form-group">
+
+                    <label for="title">
+                        도서 제목
+                    </label>
+
+                    <input
+                            id="title"
+                            name="title"
+                            type="text"
+                            maxlength="255"
+                            placeholder="예: 클라우드 입문"
+                            required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="author">
+                        저자
+                    </label>
+
+                    <input
+                            id="author"
+                            name="author"
+                            type="text"
+                            maxlength="255"
+                            placeholder="예: 홍길동"
+                            required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="description">
+                        도서 설명
+                    </label>
+
+                    <textarea
+                            id="description"
+                            name="description"
+                            maxlength="255"
+                            placeholder="책의 상태나 교환하고 싶은 이유 등을 적어주세요."
+                            required></textarea>
+
+                    <div class="character-count">
+                        <span id="descriptionCount">0</span> / 255
+                    </div>
+
+                </div>
+
+                <div class="form-notice">
+                    <strong>💡 등록 안내</strong>
+
+                    <p>
+                        새로 등록된 도서는 자동으로
+                        <b>교환 가능</b> 상태가 됩니다.
+                    </p>
+                </div>
+
+                <div class="actions">
+
+                    <button
+                            class="button"
+                            type="submit">
+                        도서 등록
+                    </button>
+
+                    <a
+                            class="button button-secondary"
+                            href="/books">
+                        취소
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <aside class="form-help">
+
+            <div class="help-icon">
+                📚
+            </div>
+
+            <h3>어떤 책을 등록할까요?</h3>
+
+            <p>
+                더 이상 읽지 않는 책이나
+                다른 책과 교환하고 싶은 도서를 등록해보세요.
+            </p>
+
+            <ul>
+                <li>정확한 도서 제목</li>
+                <li>저자 이름</li>
+                <li>간단한 책 상태 설명</li>
+            </ul>
+
+        </aside>
+
+    </div>
+
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <strong>📚 BookExchange</strong>
+        <span>중고 도서 교환 프로젝트 · Team 05</span>
+    </div>
+</footer>
+
+<script src="/app.js"></script>
+
+</body>
+</html>

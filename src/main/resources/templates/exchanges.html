@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>교환 요청 | BookExchange</title>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="header-inner">
+
+        <h1 class="logo">
+            <a href="/">📚 BookExchange</a>
+        </h1>
+
+        <nav>
+            <a href="/">홈</a>
+            <a href="/books">도서 목록</a>
+            <a href="/books/new">도서 등록</a>
+            <a href="/exchanges">교환 요청</a>
+        </nav>
+
+    </div>
+</header>
+
+<main class="container">
+
+    <div class="page-header">
+        <div>
+            <h2>🔄 교환 요청</h2>
+            <p>현재 등록된 도서 교환 요청을 확인할 수 있습니다.</p>
+        </div>
+    </div>
+
+    <div class="exchange-list">
+
+        <article class="exchange-card"
+                 th:each="request : ${exchangeRequests}">
+
+            <div class="exchange-number">
+                <span>요청 번호</span>
+                <strong th:text="${request.id}">
+                    1
+                </strong>
+            </div>
+
+            <div class="exchange-info">
+
+                <div>
+                    <span class="exchange-label">
+                        요청 도서
+                    </span>
+
+                    <a class="exchange-book-link"
+                       th:href="@{/books/{id}(id=${request.bookId})}">
+
+                        <span>도서 #</span>
+                        <span th:text="${request.bookId}">3</span>
+
+                    </a>
+                </div>
+
+                <div>
+                    <span class="exchange-label">
+                        요청 상태
+                    </span>
+
+                    <span class="status requested"
+                          th:if="${request.status == 'PENDING'}">
+                        요청 대기 중
+                    </span>
+
+                    <span class="status available"
+                          th:if="${request.status == 'ACCEPTED'}">
+                        교환 수락
+                    </span>
+
+                    <span class="status"
+                          th:if="${request.status == 'REJECTED'}">
+                        요청 거절
+                    </span>
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+    <div class="empty-result"
+         th:if="${#lists.isEmpty(exchangeRequests)}"
+         style="display:block;">
+
+        아직 등록된 교환 요청이 없습니다.
+
+    </div>
+
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <strong>📚 BookExchange</strong>
+        <span>중고 도서 교환 프로젝트 · Team 05</span>
+    </div>
+</footer>
+
+<script src="/app.js"></script>
+
+</body>
+</html>
