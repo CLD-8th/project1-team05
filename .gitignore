@@ -40,3 +40,5 @@ out/
 
 # Uploaded book images
 uploads/
+
+.env
