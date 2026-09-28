@@ -5,6 +5,5 @@ build
 .gitignore
 
 uploads
-
 *.log
 .env
