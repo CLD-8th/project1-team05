@@ -173,6 +173,11 @@
                             th:text="${book.author}">
                     </p>
 
+                    <p class="view-count">
+                        👁 조회수
+                        <strong th:text="${viewCounts[book.id]} + '회'">0회</strong>
+                    </p>
+
                     <p
                             class="description"
                             th:text="${book.description}">

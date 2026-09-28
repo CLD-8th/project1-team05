@@ -40,28 +40,23 @@
     justify-content: center;
 
     overflow: hidden;
-
     box-sizing: border-box;
 
     background: #f5f6f7;
+
     border: 1px solid #e2e5e9;
     border-radius: 14px;
 }
 
-
-/* 실제 등록된 표지 이미지 */
 .detail-cover img {
     width: 100%;
     height: 100%;
 
     display: block;
 
-    /* 원본 비율 유지 + 전체 이미지 표시 */
     object-fit: contain;
 }
 
-
-/* 표지가 없는 경우 */
 .detail-cover-empty {
     width: 100%;
     height: 100%;
@@ -77,7 +72,6 @@
 
 .detail-book-icon {
     margin-bottom: 15px;
-
     font-size: 75px;
 }
 
@@ -95,16 +89,11 @@
     border-radius: 14px;
 }
 
-
-/* 도서 제목 */
 .detail-content h2 {
     margin: 15px 0 25px;
-
     font-size: 32px;
 }
 
-
-/* 구분선 */
 .detail-content hr {
     margin: 28px 0;
 
@@ -148,6 +137,436 @@
 
 
 /* =========================
+   조회수
+========================= */
+
+.view-count {
+    margin-top: 25px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #777;
+    font-size: 14px;
+}
+
+.view-count strong {
+    color: #333;
+}
+
+
+/* ========================================
+   Redis 전체 영역
+======================================== */
+
+.cache-info {
+    margin-top: 25px;
+    padding: 26px;
+
+    background: #fff;
+
+    border: 1px solid #dfe5ec;
+    border-radius: 16px;
+
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.05);
+}
+
+
+/* Redis 제목 */
+
+.cache-info-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 20px;
+
+    font-size: 19px;
+    font-weight: 800;
+
+    color: #172033;
+}
+
+
+/* ========================================
+   HIT / MISS 상태 영역
+======================================== */
+
+.cache-status-panel {
+    padding: 22px;
+
+    background: #fbfcfe;
+
+    border: 1px solid #e1e6ed;
+    border-radius: 14px;
+}
+
+
+/* 상단 HIT / MISS 표시 */
+
+.cache-status-main {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 18px 20px;
+
+    background: #f0faf4;
+
+    border: 1px solid #cce8d6;
+    border-radius: 12px;
+}
+
+.cache-status-icon {
+    flex-shrink: 0;
+
+    font-size: 30px;
+    line-height: 1;
+}
+
+.cache-status-text {
+    display: inline-block;
+
+    margin-right: 8px;
+
+    color: #16803c;
+
+    font-size: 26px;
+    font-weight: 900;
+}
+
+.cache-status-main p {
+    display: inline;
+
+    margin: 0;
+
+    color: #344054;
+
+    font-size: 15px;
+    font-weight: 600;
+}
+
+
+/* =========================
+   Redis 조회 흐름 - 세로형
+========================= */
+
+.cache-step-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0;
+
+    margin-top: 24px;
+}
+
+
+/* 각 단계 카드 */
+
+/* 각 단계 */
+
+.cache-step {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    width: 100%;
+    padding: 16px 18px;
+
+    box-sizing: border-box;
+
+    background: #fff;
+
+    border: 1px solid #dfe5ec;
+    border-radius: 12px;
+}
+
+/* 1 / 2 / 3 / 4 */
+
+.cache-step > span {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+
+    background: #e9f8ee;
+
+    border-radius: 50%;
+
+    color: #16803c;
+
+    font-size: 15px;
+    font-weight: 800;
+}
+
+
+
+/* 단계 제목 */
+
+.cache-step strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #172033;
+
+    font-size: 15px;
+    font-weight: 800;
+}
+
+/* 단계 설명 */
+
+.cache-step p {
+    margin: 0;
+
+    color: #667085;
+
+    font-size: 13px;
+    line-height: 1.6;
+
+    word-break: keep-all;
+}
+
+
+/* Redis Key */
+
+.cache-step code {
+    padding: 2px 6px;
+
+    background: #f1f3f5;
+
+    border-radius: 5px;
+
+    font-size: 12px;
+}
+
+
+/* 단계 사이 화살표 */
+
+.cache-step-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    height: 30px;
+
+    padding-left: 27px;
+
+    color: #98a2b3;
+
+    font-size: 20px;
+
+    transform: none;
+}
+
+/* ========================================
+   결과 메시지
+======================================== */
+
+.cache-result {
+    margin-top: 20px;
+    padding: 14px 16px;
+
+    background: #f5f7fa;
+
+    border: 1px solid #e1e6ed;
+    border-radius: 9px;
+
+    color: #475467;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.cache-result.success {
+    background: #edf9f1;
+
+    border-color: #cce8d6;
+
+    color: #15753a;
+}
+
+
+/* ========================================
+   Redis 직접 확인 영역
+======================================== */
+
+.cache-action {
+    margin-top: 22px;
+    padding: 20px;
+
+    background: #f5f8fd;
+
+    border: 1px solid #d8e4f4;
+    border-radius: 12px;
+}
+
+.cache-action > p {
+    margin: 0 0 14px;
+
+    color: #475467;
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* 버튼 + 조회수 한 줄 */
+
+.cache-action-row {
+    display: grid;
+
+    grid-template-columns:
+        minmax(180px, 1fr)
+        minmax(180px, 1fr)
+        150px;
+
+    gap: 12px;
+}
+
+
+/* ========================================
+   Redis 버튼
+======================================== */
+
+.cache-reset-button,
+.cache-refresh-button {
+    min-height: 58px;
+    padding: 12px 16px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 800;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+            transform 0.15s ease,
+            box-shadow 0.15s ease,
+            background 0.15s ease;
+}
+
+
+/* 캐시 삭제 */
+
+.cache-reset-button {
+    background: #fff1f1;
+
+    border: 1px solid #f0b9b9;
+
+    color: #c93636;
+}
+
+.cache-reset-button:hover {
+    background: #ffe5e5;
+
+    box-shadow: 0 4px 12px rgba(201, 54, 54, 0.12);
+
+    transform: translateY(-1px);
+}
+
+
+/* 새로고침 */
+
+.cache-refresh-button {
+    background: #edf5ff;
+
+    border: 1px solid #bad2f5;
+
+    color: #2467c9;
+}
+
+.cache-refresh-button:hover {
+    background: #e1edff;
+
+    box-shadow: 0 4px 12px rgba(36, 103, 201, 0.12);
+
+    transform: translateY(-1px);
+}
+
+.cache-reset-button:active,
+.cache-refresh-button:active {
+    transform: translateY(0);
+}
+
+
+/* ========================================
+   Redis 조회수
+======================================== */
+
+.cache-view-counter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px;
+
+    background: #fff;
+
+    border: 1px solid #d8e4f4;
+    border-radius: 10px;
+}
+
+.cache-view-counter span {
+    margin-bottom: 4px;
+
+    color: #667085;
+
+    font-size: 12px;
+}
+
+.cache-view-counter strong {
+    color: #172033;
+
+    font-size: 23px;
+    font-weight: 900;
+}
+
+
+/* ========================================
+   Redis 사용하는 이유
+======================================== */
+
+.cache-summary {
+    margin-top: 22px;
+    padding: 18px 20px;
+
+    background: #fffaf0;
+
+    border: 1px solid #efdfb4;
+    border-radius: 12px;
+}
+
+.cache-summary strong {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #172033;
+
+    font-size: 16px;
+}
+
+.cache-summary p {
+    margin: 0;
+
+    color: #5f6673;
+
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* =========================
    교환 요청
 ========================= */
 
@@ -176,168 +595,89 @@
     flex-shrink: 0;
 }
 
-/* =========================
-   Redis 캐시 정보
-========================= */
 
-.cache-info {
-    margin-top: 25px;
-    padding: 18px 20px;
+/* ========================================
+   반응형
+======================================== */
 
-    background: #f6f7f9;
+@media (max-width: 1600px) {
 
-    border: 1px solid #e2e5e9;
-    border-radius: 10px;
-}
+    .book-detail-layout {
+        display: grid;
+        grid-template-columns: 300px minmax(1300px, 1fr);
+        gap: 30px;
+    }
 
-.cache-info-title {
-    margin-bottom: 12px;
+    .cache-step-list {
+        flex-direction: column;
+    }
 
-    font-weight: bold;
-}
+    .cache-step-arrow {
+        height: 18px;
 
-.cache-info-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+        transform: none;
+    }
 
-    padding: 6px 0;
+    .cache-action-row {
+        grid-template-columns: 1fr 1fr;
+    }
 
-    color: #666;
-    font-size: 14px;
-}
-
-.cache-info-content strong {
-    color: #333;
-}
-
-.cache-info-content code {
-    padding: 3px 7px;
-
-    background: #e9ecef;
-
-    border-radius: 5px;
-
-    color: #444;
-}
-
-/* =========================
-   조회수
-========================= */
-
-.view-count {
-    margin-top: 25px;
-
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    color: #777;
-    font-size: 14px;
-}
-
-.view-count strong {
-    color: #333;
+    .cache-view-counter {
+        grid-column: 1 / -1;
+    }
 }
 
 
+@media (max-width: 800px) {
 
-/* =========================
-   Redis 캐시 정보
-========================= */
+    .book-detail-layout {
+        grid-template-columns: 1fr;
+    }
 
-.cache-info {
-    margin-top: 15px;
-    padding: 18px 20px;
+    .detail-cover {
+        max-width: 350px;
+        width: 100%;
 
-    background: #f6f7f9;
+        margin: 0 auto;
+    }
 
-    border: 1px solid #e2e5e9;
-    border-radius: 10px;
-}
+    .detail-content {
+        padding: 22px;
+    }
 
-.cache-info-title {
-    margin-bottom: 12px;
+    .cache-info {
+        padding: 18px;
+    }
 
-    font-weight: bold;
-}
+    .cache-status-panel {
+        padding: 15px;
+    }
 
-.cache-info-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    .cache-status-main {
+        align-items: flex-start;
+    }
 
-    padding: 6px 0;
+    .cache-status-main p {
+        display: block;
 
-    color: #666;
-    font-size: 14px;
-}
+        margin-top: 4px;
+    }
 
-.cache-info-content strong {
-    color: #333;
-}
+    .cache-action-row {
+        grid-template-columns: 1fr;
+    }
 
-.cache-info-content code {
-    padding: 3px 7px;
+    .cache-view-counter {
+        grid-column: auto;
+    }
 
-    background: #e9ecef;
+    .cache-reset-button,
+    .cache-refresh-button {
+        width: 100%;
+    }
 
-    border-radius: 5px;
-
-    color: #444;
-}
-
-.cache-description {
-    margin: 0 0 16px;
-
-    color: #666;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-.cache-flow {
-    margin-top: 16px;
-    padding-top: 16px;
-
-    border-top: 1px solid #ddd;
-}
-
-.cache-flow-box {
-    margin-top: 10px;
-    padding: 12px;
-
-    background: #fff;
-
-    border: 1px solid #e2e5e9;
-    border-radius: 8px;
-
-    color: #555;
-    font-size: 13px;
-    text-align: center;
-}
-
-.cache-flow-box span {
-    margin: 0 5px;
-    color: #999;
-}
-
-.cache-benefit {
-    margin-top: 16px;
-}
-
-.cache-benefit ul {
-    margin: 10px 0 0;
-    padding-left: 20px;
-
-    color: #666;
-    font-size: 13px;
-    line-height: 1.8;
-}
-
-.cache-benefit code {
-    padding: 2px 5px;
-
-    background: #e9ecef;
-
-    border-radius: 4px;
+    .exchange-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
 }
