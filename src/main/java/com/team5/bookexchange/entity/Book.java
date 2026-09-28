@@ -23,4 +23,6 @@ public class Book {
     private String description;
 
     private String status;
+
+    private String imageName;
 }

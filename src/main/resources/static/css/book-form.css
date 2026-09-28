@@ -1,0 +1,89 @@
+.form-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.form-box {
+    padding: 28px;
+    border: 1px solid #e2e5e9;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d4d7dc;
+    border-radius: 7px;
+    background: #fff;
+    font: inherit;
+}
+
+.form-group textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.form-help {
+    padding: 30px;
+    background: white;
+    border: 1px solid #e2e5e9;
+    border-radius: 12px;
+}
+
+.form-help h3 {
+    margin: 15px 0 10px;
+}
+
+.form-help p,
+.form-help li {
+    color: #666;
+    line-height: 1.7;
+}
+
+.form-help ul {
+    padding-left: 20px;
+}
+
+.help-icon {
+    font-size: 45px;
+}
+
+.form-notice {
+    margin-top: 25px;
+    padding: 17px;
+    background: #f6f7f9;
+    border-radius: 8px;
+}
+
+.form-notice p {
+    margin: 8px 0 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.character-count {
+    margin-top: 6px;
+    text-align: right;
+    color: #888;
+    font-size: 12px;
+}
