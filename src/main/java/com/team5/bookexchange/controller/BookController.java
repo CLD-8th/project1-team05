@@ -4,6 +4,7 @@ import com.team5.bookexchange.entity.Book;
 import com.team5.bookexchange.service.BookService;
 import com.team5.bookexchange.service.ExchangeRequestService;
 import com.team5.bookexchange.service.ImageService;
+import com.team5.bookexchange.service.RedisService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,25 +18,37 @@ public class BookController {
     private final BookService bookService;
     private final ExchangeRequestService exchangeRequestService;
     private final ImageService imageService;
+    private final RedisService redisService;
 
     public BookController(
             BookService bookService,
             ExchangeRequestService exchangeRequestService,
-            ImageService imageService) {
+            ImageService imageService,
+            RedisService redisService) {
 
         this.bookService = bookService;
         this.exchangeRequestService = exchangeRequestService;
         this.imageService = imageService;
+        this.redisService = redisService;
     }
 
     // 도서 목록
     @GetMapping
     public String findAll(Model model) {
 
-        model.addAttribute(
-                "books",
-                bookService.findAll()
-        );
+        var books = bookService.findAll();
+
+        var viewCounts = new java.util.HashMap<Long, Long>();
+
+        for (Book book : books) {
+            viewCounts.put(
+                    book.getId(),
+                    redisService.getViewCount(book.getId())
+            );
+        }
+
+        model.addAttribute("books", books);
+        model.addAttribute("viewCounts", viewCounts);
 
         return "books";
     }
@@ -80,16 +93,20 @@ public class BookController {
 
     // 도서 상세
     @GetMapping("/{id}")
-    public String findById(
-            @PathVariable Long id,
-            Model model) {
+    public String detail(@PathVariable Long id, Model model) {
 
+        // 상세 조회 전에 Redis 캐시 존재 여부 확인
+        boolean cacheHit = redisService.hasBookCache(id);
+
+        // 실제 상세 조회
         Book book = bookService.findById(id);
 
-        model.addAttribute(
-                "book",
-                book
-        );
+        // 상세 페이지 접속이므로 조회수 +1
+        Long viewCount = redisService.increaseViewCount(id);
+
+        model.addAttribute("book", book);
+        model.addAttribute("viewCount", viewCount);
+        model.addAttribute("cacheHit", cacheHit);
 
         return "book-detail";
     }

@@ -148,9 +148,8 @@
             <!-- 조회수 - 현재는 Redis 구현 전 더미 데이터 -->
             <div class="view-count">
                 <span>👁 조회수</span>
-                <strong>17회</strong>
+                <strong th:text="${viewCount} + '회'">0회</strong>
             </div>
-
 
             <!-- Redis 캐시 정보 - 현재는 화면 구성용 더미 데이터 -->
             <div class="cache-info">
@@ -167,7 +166,9 @@
 
                 <div class="cache-info-content">
                     <span>캐시 상태</span>
-                    <strong>HIT</strong>
+
+                    <strong th:if="${cacheHit}">HIT</strong>
+                    <strong th:unless="${cacheHit}">MISS</strong>
                 </div>
 
                 <div class="cache-info-content">
@@ -177,13 +178,22 @@
 
                 <div class="cache-info-content">
                     <span>데이터 출처</span>
-                    <strong>Redis Cache</strong>
+
+                    <strong th:if="${cacheHit}">
+                        Redis Cache
+                    </strong>
+
+                    <strong th:unless="${cacheHit}">
+                        MySQL
+                    </strong>
                 </div>
 
                 <div class="cache-flow">
                     <strong>현재 조회 흐름</strong>
 
-                    <div class="cache-flow-box">
+                    <!-- HIT -->
+                    <div class="cache-flow-box"
+                         th:if="${cacheHit}">
                         도서 상세 요청
                         <span>→</span>
                         Redis 확인
@@ -191,6 +201,20 @@
                         HIT
                         <span>→</span>
                         Redis 데이터 반환
+                    </div>
+
+                    <!-- MISS -->
+                    <div class="cache-flow-box"
+                         th:unless="${cacheHit}">
+                        도서 상세 요청
+                        <span>→</span>
+                        Redis 확인
+                        <span>→</span>
+                        MISS
+                        <span>→</span>
+                        MySQL 조회
+                        <span>→</span>
+                        Redis 저장
                     </div>
                 </div>
 
