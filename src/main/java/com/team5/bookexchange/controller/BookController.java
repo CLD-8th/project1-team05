@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/books")
@@ -41,7 +42,11 @@ public class BookController {
 
     // 도서 등록 화면
     @GetMapping("/new")
-    public String createForm() {
+    public String createForm(HttpSession session) {
+
+        if (session.getAttribute("loginMember") == null) {
+            return "redirect:/login";
+        }
 
         return "book-form";
     }
@@ -93,19 +98,16 @@ public class BookController {
     @PostMapping("/{id}/exchange")
     @ResponseBody
     public String exchange(
-            @PathVariable Long id) {
+            @PathVariable Long id,
+            HttpSession session) {
 
-        // 도서 존재 확인
+        if (session.getAttribute("loginMember") == null) {
+            return "LOGIN_REQUIRED";
+        }
+
         bookService.findById(id);
-
-        // 교환 요청 생성
         exchangeRequestService.create(id);
-
-        // 도서 상태 변경
-        bookService.updateStatus(
-                id,
-                "REQUESTED"
-        );
+        bookService.updateStatus(id, "REQUESTED");
 
         return "교환 요청이 완료되었습니다.";
     }
