@@ -21,14 +21,43 @@
             <a href="/">📚 BookExchange</a>
         </h1>
 
-        <nav>
+        <nav class="main-nav">
             <a href="/">홈</a>
             <a href="/books">도서 목록</a>
-            <a href="/books/new">도서 등록</a>
+
+            <!-- 로그인한 사용자만 도서 등록 표시 -->
+            <a href="/books/new"
+               th:if="${session.loginMember != null}">
+                도서 등록
+            </a>
         </nav>
+
+        <!-- 로그인 전 -->
+        <div class="header-auth"
+             th:if="${session.loginMember == null}">
+
+            <a href="/login">로그인</a>
+            <a href="/signup">회원가입</a>
+
+        </div>
+
+        <!-- 로그인 후 -->
+        <div class="header-auth"
+             th:if="${session.loginMember != null}">
+
+            <span>
+                <strong th:text="${session.loginMember.name}">
+                    사용자
+                </strong>님
+            </span>
+
+            <a href="/logout">로그아웃</a>
+
+        </div>
 
     </div>
 </header>
+
 
 <main class="container">
 
@@ -38,22 +67,30 @@
 
     <section class="book-detail-layout">
 
+        <!-- 도서 표지 -->
         <div class="detail-cover">
 
-            <!-- 등록된 표지 이미지가 있는 경우 -->
             <img th:if="${book.imageName != null}"
                  th:src="@{/uploads/books/{imageName}(imageName=${book.imageName})}"
                  th:alt="${book.title}">
 
-            <!-- 표지 이미지가 없는 기존 도서 -->
             <div class="detail-cover-empty"
                  th:if="${book.imageName == null}">
-                <div class="detail-book-icon">📖</div>
-                <span>등록된 표지가 없습니다.</span>
+
+                <div class="detail-book-icon">
+                    📖
+                </div>
+
+                <span>
+                    등록된 표지가 없습니다.
+                </span>
+
             </div>
 
         </div>
 
+
+        <!-- 도서 정보 -->
         <div class="detail-content">
 
             <span
@@ -74,23 +111,33 @@
                 교환 완료
             </span>
 
+
             <h2 th:text="${book.title}">
                 도서 제목
             </h2>
 
+
             <div class="detail-author">
-                <span>저자</span>
+
+                <span>
+                    저자
+                </span>
 
                 <strong th:text="${book.author}">
                     저자 이름
                 </strong>
+
             </div>
+
 
             <hr>
 
+
             <div class="detail-description">
 
-                <h3>도서 설명</h3>
+                <h3>
+                    도서 설명
+                </h3>
 
                 <p th:text="${book.description}">
                     도서 설명
@@ -98,17 +145,112 @@
 
             </div>
 
+            <!-- 조회수 - 현재는 Redis 구현 전 더미 데이터 -->
+            <div class="view-count">
+                <span>👁 조회수</span>
+                <strong>17회</strong>
+            </div>
+
+
+            <!-- Redis 캐시 정보 - 현재는 화면 구성용 더미 데이터 -->
+            <div class="cache-info">
+
+                <div class="cache-info-title">
+                    ⚡ Redis 상세 조회 캐시
+                </div>
+
+                <p class="cache-description">
+                    자주 조회되는 도서 상세 정보를 Redis 메모리에 캐싱하여
+                    동일한 도서를 다시 조회할 때 MySQL에 반복적으로 접근하지 않고
+                    Redis에서 빠르게 데이터를 가져옵니다.
+                </p>
+
+                <div class="cache-info-content">
+                    <span>캐시 상태</span>
+                    <strong>HIT</strong>
+                </div>
+
+                <div class="cache-info-content">
+                    <span>캐시 Key</span>
+                    <code th:text="'book:' + ${book.id}">book:1</code>
+                </div>
+
+                <div class="cache-info-content">
+                    <span>데이터 출처</span>
+                    <strong>Redis Cache</strong>
+                </div>
+
+                <div class="cache-flow">
+                    <strong>현재 조회 흐름</strong>
+
+                    <div class="cache-flow-box">
+                        도서 상세 요청
+                        <span>→</span>
+                        Redis 확인
+                        <span>→</span>
+                        HIT
+                        <span>→</span>
+                        Redis 데이터 반환
+                    </div>
+                </div>
+
+                <div class="cache-benefit">
+                    <strong>Redis를 사용하는 이유</strong>
+
+                    <ul>
+                        <li>반복되는 도서 상세 조회의 응답 속도를 높일 수 있습니다.</li>
+                        <li>MySQL에 전달되는 반복 조회 요청을 줄일 수 있습니다.</li>
+                        <li>조회 요청이 많아져도 데이터베이스의 부하를 줄이는 데 도움이 됩니다.</li>
+                        <li>도서 ID를 <code>book:{id}</code> 형태의 Key로 관리하기 쉽습니다.</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Redis 캐시 정보 - 현재는 화면 구성용 더미 데이터 -->
+            <div class="cache-info">
+
+                <div class="cache-info-title">
+                    ⚡ Redis 캐시 정보
+                </div>
+
+                <div class="cache-info-content">
+                    <span>캐시 상태</span>
+                    <strong>HIT</strong>
+                </div>
+
+                <div class="cache-info-content">
+                    <span>캐시 Key</span>
+                    <code th:text="'book:' + ${book.id}">book:1</code>
+                </div>
+
+                <div class="cache-info-content">
+                    <span>데이터 출처</span>
+                    <strong>Redis Cache</strong>
+                </div>
+
+            </div>
+
+
+            <!-- 교환 요청 -->
             <div class="exchange-box">
 
                 <div>
-                    <strong>이 책이 마음에 드시나요?</strong>
+
+                    <strong>
+                        이 책이 마음에 드시나요?
+                    </strong>
 
                     <p>
                         교환을 원하는 경우 요청을 보낼 수 있습니다.
                     </p>
+
                 </div>
 
+
+                <!-- 로그인한 경우 -->
                 <button
+                        th:if="${session.loginMember != null}"
                         id="exchangeButton"
                         class="button"
                         th:data-book-id="${book.id}"
@@ -118,6 +260,17 @@
 
                 </button>
 
+
+                <!-- 로그인하지 않은 경우 -->
+                <a
+                        th:if="${session.loginMember == null}"
+                        href="/login"
+                        class="button">
+
+                    로그인 후 교환 요청
+
+                </a>
+
             </div>
 
         </div>
@@ -126,15 +279,25 @@
 
 </main>
 
+
 <footer>
+
     <div class="footer-inner">
-        <strong>📚 BookExchange</strong>
-        <span>중고 도서 교환 프로젝트 · Team 05</span>
+
+        <strong>
+            📚 BookExchange
+        </strong>
+
+        <span>
+            중고 도서 교환 프로젝트 · Team 05
+        </span>
+
     </div>
+
 </footer>
 
-<script src="/js/book-detail.js"></script>
 
+<script src="/js/book-detail.js"></script>
 
 </body>
 </html>
