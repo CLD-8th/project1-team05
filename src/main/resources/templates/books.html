@@ -161,6 +161,29 @@
         검색 결과가 없습니다.
     </div>
 
+<nav class="pagination"
+     aria-label="도서 목록 페이지 이동"
+     th:if="${bookPage.totalPages > 0 and startPage <= endPage}">
+
+    <a th:if="${bookPage.hasPrevious()}"
+       th:href="@{/books(page=${bookPage.number})}">
+        이전
+    </a>
+
+    <a th:each="number : ${#numbers.sequence(startPage, endPage)}"
+       th:href="@{/books(page=${number})}"
+       th:text="${number}"
+       th:classappend="${number == bookPage.number + 1} ? 'active' : ''"
+       th:attr="aria-current=${number == bookPage.number + 1 ? 'page' : null}">
+    </a>
+
+    <a th:if="${bookPage.hasNext()}"
+       th:href="@{/books(page=${bookPage.number + 2})}">
+        다음
+    </a>
+
+</nav>
+
 </main>
 
 <footer>

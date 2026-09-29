@@ -188,3 +188,67 @@
 .detail-link:hover {
     text-decoration: underline;
 }
+/* 페이지 버튼 묶음 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 36px 0;
+}
+
+/* 기본 버튼 */
+.pagination a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 42px;
+    height: 42px;
+    padding: 0 14px;
+    box-sizing: border-box;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background-color: #fff;
+
+    color: #475569;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+
+    transition:
+            background-color 0.15s ease,
+            border-color 0.15s ease,
+            color 0.15s ease,
+            box-shadow 0.15s ease;
+}
+
+/* 마우스를 올렸을 때 */
+.pagination a:hover {
+    background-color: #f0fdfa;
+    border-color: #5eead4;
+    color: #0f766e;
+}
+
+/* 현재 페이지 */
+.pagination a.active {
+    background-color: #0f766e;
+    border-color: #0f766e;
+    color: #fff;
+    box-shadow: 0 3px 8px rgb(15 118 110 / 20%);
+}
+
+/* 키보드 Tab으로 선택했을 때 */
+.pagination a:focus-visible {
+    outline: 3px solid #5eead4;
+    outline-offset: 3px;
+}
+
+/* 동작 효과를 줄이도록 설정한 사용자 */
+@media (prefers-reduced-motion: reduce) {
+    .pagination a {
+        transition: none;
+    }
+}
