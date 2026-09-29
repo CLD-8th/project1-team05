@@ -77,72 +77,84 @@
 
         <article
                 class="exchange-card"
-                th:each="request : ${exchangeRequests}">
+                th:each="exchange : ${exchanges}">
 
-            <!-- 요청 번호 -->
+            <!-- 교환 요청 번호 -->
             <div class="exchange-number">
 
                 <span>요청 번호</span>
 
-                <strong th:text="${request.id}"></strong>
+                <strong th:text="${exchange.exchangeId}">
+                </strong>
 
             </div>
 
-
             <div class="exchange-info">
 
-                <!-- 요청한 도서 -->
+                <!-- 요청 도서 -->
                 <div>
 
-                    <span class="exchange-label">
-                        요청 도서
-                    </span>
+                <span class="exchange-label">
+                    요청 도서
+                </span>
 
                     <a
                             class="exchange-book-link"
-                            th:href="@{/books/{id}(id=${request.bookId})}">
+                            th:href="@{/books/{id}(id=${exchange.bookId})}">
 
-                        <span>도서 #</span>
-
-                        <span th:text="${request.bookId}"></span>
+                    <span th:text="${exchange.bookTitle}">
+                        도서 제목
+                    </span>
 
                     </a>
 
                 </div>
 
 
-                <!-- 교환 요청 상태 -->
+                <!-- 상태 -->
                 <div>
 
-                    <span class="exchange-label">
-                        요청 상태
-                    </span>
+                <span class="exchange-label">
+                    요청 상태
+                </span>
 
                     <span
                             class="status requested"
-                            th:if="${request.status == 'PENDING'}">
-
-                        요청 대기 중
-
-                    </span>
+                            th:if="${exchange.status == 'REQUESTED'}">
+                    요청 대기 중
+                </span>
 
                     <span
                             class="status available"
-                            th:if="${request.status == 'ACCEPTED'}">
-
-                        교환 수락
-
-                    </span>
-
-                    <span
-                            class="status"
-                            th:if="${request.status == 'REJECTED'}">
-
-                        요청 거절
-
-                    </span>
+                            th:if="${exchange.status == 'EXCHANGED'}">
+                    교환 완료
+                </span>
 
                 </div>
+
+
+                <!-- REQUESTED 상태에서만 수락 가능 -->
+                <form
+                        th:if="${exchange.status == 'REQUESTED'}"
+                        th:action="@{/exchanges/{bookId}/accept(bookId=${exchange.bookId})}"
+                        method="post">
+
+                    <button type="submit">
+                        교환 수락
+                    </button>
+
+                </form>
+
+                <form
+                        th:if="${exchange.status == 'REQUESTED'}"
+                        th:action="@{/exchanges/{bookId}/reject(bookId=${exchange.bookId})}"
+                        method="post">
+
+                    <button type="submit">
+                        교환 거절
+                    </button>
+
+                </form>
 
             </div>
 
@@ -154,7 +166,7 @@
     <!-- 교환 요청이 하나도 없는 경우 -->
     <div
             class="empty-result"
-            th:if="${#lists.isEmpty(exchangeRequests)}"
+            th:if="${#lists.isEmpty(exchanges)}"
             style="display:block;">
 
         아직 등록된 교환 요청이 없습니다.

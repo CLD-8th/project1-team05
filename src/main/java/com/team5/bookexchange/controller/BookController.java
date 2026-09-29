@@ -2,7 +2,7 @@ package com.team5.bookexchange.controller;
 
 import com.team5.bookexchange.entity.Book;
 import com.team5.bookexchange.service.BookService;
-import com.team5.bookexchange.service.ExchangeRequestService;
+import com.team5.bookexchange.service.ExchangeService;
 import com.team5.bookexchange.service.ImageService;
 import com.team5.bookexchange.service.RedisService;
 import com.team5.bookexchange.entity.Member;
@@ -19,20 +19,20 @@ import org.springframework.http.ResponseEntity;
 public class BookController {
 
     private final BookService bookService;
-    private final ExchangeRequestService exchangeRequestService;
     private final ImageService imageService;
     private final RedisService redisService;
+    private final ExchangeService exchangeService;
 
     public BookController(
             BookService bookService,
-            ExchangeRequestService exchangeRequestService,
             ImageService imageService,
-            RedisService redisService) {
+            RedisService redisService,
+            ExchangeService exchangeService) {
 
         this.bookService = bookService;
-        this.exchangeRequestService = exchangeRequestService;
         this.imageService = imageService;
         this.redisService = redisService;
+        this.exchangeService = exchangeService;
     }
 
     // 도서 목록
@@ -159,14 +159,21 @@ public class BookController {
         }
 
         // 교환 가능한 도서인지 확인
-        if (!"AVAILABLE".equals(book.getStatus())) {
+        if (!"AVAILABLE".equals(book.getStatus()) && !"REJECTED".equals(book.getStatus())) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
                     .body("현재 교환 요청이 가능한 도서가 아닙니다.");
         }
 
-        exchangeRequestService.create(id);
-        bookService.updateStatus(id, "REQUESTED");
+        bookService.findById(id);
+
+        exchangeService.create(
+                book.getId(),
+                loginMember.getId(),
+                book.getOwnerId()
+        );
+
+        bookService.requestExchange(id);
 
         return ResponseEntity.ok("교환 요청이 완료되었습니다.");
     }
