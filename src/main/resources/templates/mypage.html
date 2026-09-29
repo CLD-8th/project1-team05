@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>마이페이지 | BookExchange</title>
+
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/mypage.css">
+</head>
+
+<body>
+
+<!-- 공통 헤더 -->
+<header>
+    <div class="header-inner">
+
+        <h1 class="logo">
+            <a href="/">📚 BookExchange</a>
+        </h1>
+
+        <nav class="main-nav">
+            <a href="/">홈</a>
+            <a href="/books">도서 목록</a>
+
+            <!-- 로그인한 사용자에게만 표시 -->
+            <a href="/books/new"
+               th:if="${session.loginMember != null}">
+                도서 등록
+            </a>
+
+        </nav>
+
+
+        <!-- 로그인하지 않은 상태 -->
+        <div class="header-auth"
+             th:if="${session.loginMember == null}">
+
+            <a href="/login">로그인</a>
+            <a href="/signup">회원가입</a>
+
+        </div>
+
+
+        <!-- 로그인한 상태 -->
+        <div class="header-auth"
+             th:if="${session.loginMember != null}">
+
+            <span>
+                <strong th:text="${session.loginMember.name}">
+                    사용자
+                </strong>님
+            </span>
+
+            <a href="/mypage">마이페이지</a>
+
+            <a href="/logout">로그아웃</a>
+
+        </div>
+
+    </div>
+</header>
+
+
+<main class="container">
+
+    <!-- 제목 -->
+    <section class="mypage-title">
+        <div>
+            <h2>마이페이지</h2>
+            <p>
+                내 정보와 등록한 도서를 확인할 수 있습니다.
+            </p>
+        </div>
+    </section>
+
+
+    <!-- 회원 정보 -->
+    <section class="mypage-section">
+
+        <div class="section-title">
+            <div>
+                <h2>내 정보</h2>
+                <p>현재 로그인한 회원 정보입니다.</p>
+            </div>
+        </div>
+
+        <div class="profile-card">
+
+            <div class="profile-icon">
+                👤
+            </div>
+
+            <div class="profile-info">
+
+                <strong th:text="${member.name}">
+                    사용자
+                </strong>
+
+                <p>
+                    아이디
+                    <span th:text="${member.username}">
+                        username
+                    </span>
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- 등록 도서 -->
+    <section class="mypage-section">
+
+        <div class="section-title">
+
+            <div>
+                <h2>내가 등록한 도서</h2>
+                <p>내가 BookExchange에 등록한 도서입니다.</p>
+            </div>
+
+            <a href="/books/new">
+                ＋ 도서 등록
+            </a>
+
+        </div>
+
+
+        <!-- 책 있음 -->
+        <div class="my-book-list"
+             th:if="${!#lists.isEmpty(myBooks)}">
+
+            <article class="my-book-card"
+                     th:each="book : ${myBooks}">
+
+                <!-- 표지 -->
+                <div class="my-book-cover">
+
+                    <img th:if="${book.imageName != null}"
+                         th:src="@{/uploads/books/{imageName}(imageName=${book.imageName})}"
+                         th:alt="${book.title}">
+
+                    <div class="my-book-cover-empty"
+                         th:if="${book.imageName == null}">
+                        📖
+                    </div>
+
+                </div>
+
+
+                <!-- 책 정보 -->
+                <div class="my-book-info">
+
+                    <span class="status available"
+                          th:if="${book.status == 'AVAILABLE'}">
+                        교환 가능
+                    </span>
+
+                    <span class="status requested"
+                          th:if="${book.status == 'REQUESTED'}">
+                        교환 요청 중
+                    </span>
+
+                    <span class="status"
+                          th:if="${book.status == 'EXCHANGED'}">
+                        교환 완료
+                    </span>
+
+                    <h3 th:text="${book.title}">
+                        도서 제목
+                    </h3>
+
+                    <p th:text="${book.author}">
+                        저자
+                    </p>
+
+                    <a th:href="@{/books/{id}(id=${book.id})}">
+                        상세보기 →
+                    </a>
+
+                </div>
+
+            </article>
+
+        </div>
+
+
+        <!-- 책 없음 -->
+        <div class="empty-result"
+             th:if="${#lists.isEmpty(myBooks)}">
+
+            아직 등록한 도서가 없습니다.
+
+        </div>
+
+    </section>
+
+
+    <!-- 교환 요청 자리 -->
+    <section class="mypage-section">
+
+        <div class="section-title">
+            <div>
+                <h2>교환 요청</h2>
+                <p>내가 보낸 요청과 받은 요청을 관리합니다.</p>
+            </div>
+        </div>
+
+        <div class="exchange-grid">
+
+            <div class="exchange-card">
+                <strong>📤 내가 보낸 요청</strong>
+                <p>교환 요청 기능 연결 예정</p>
+            </div>
+
+            <div class="exchange-card">
+                <strong>📥 내가 받은 요청</strong>
+                <p>교환 요청 기능 연결 예정</p>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- 공통 푸터 -->
+<footer>
+    <div class="footer-inner">
+
+        <strong>
+            📚 BookExchange
+        </strong>
+
+        <span>
+            중고 도서 교환 프로젝트 · Team 05
+        </span>
+
+    </div>
+</footer>
+
+</body>
+</html>
