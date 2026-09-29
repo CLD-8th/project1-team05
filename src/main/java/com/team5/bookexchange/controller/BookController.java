@@ -6,6 +6,7 @@ import com.team5.bookexchange.service.ExchangeRequestService;
 import com.team5.bookexchange.service.ImageService;
 import com.team5.bookexchange.service.RedisService;
 import com.team5.bookexchange.entity.Member;
+import jakarta.websocket.server.PathParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,9 +38,13 @@ public class BookController {
 
     // 도서 목록
     @GetMapping
-    public String findAll(Model model) {
+    public String findAll(
+            @RequestParam(defaultValue = "1") int page,
+            Model model) {
 
-        var books = bookService.findAll();
+        page = Math.max(page,1);
+
+        var books = bookService.findPage(page -1);
 
         var viewCounts = new java.util.HashMap<Long, Long>();
 
@@ -50,8 +55,15 @@ public class BookController {
             );
         }
 
-        model.addAttribute("books", books);
+        model.addAttribute("books", books.getContent());
+        model.addAttribute("bookPage", books);
         model.addAttribute("viewCounts", viewCounts);
+
+        int currentPage = books.getNumber() + 1;
+        int startPage = Math.max(1,currentPage -2 );
+        int endPage = Math.min(books.getTotalPages(), startPage + 4);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
 
         return "books";
     }
