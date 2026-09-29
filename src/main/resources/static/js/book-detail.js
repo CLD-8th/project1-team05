@@ -35,7 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if (!response.ok) {
-                throw new Error("교환 요청에 실패했습니다.");
+                const message = await response.text();
+                throw new Error(message || "교환 요청에 실패했습니다.");
             }
 
             alert("교환 요청이 완료되었습니다.");

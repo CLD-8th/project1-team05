@@ -5,6 +5,7 @@ import com.team5.bookexchange.service.BookService;
 import com.team5.bookexchange.service.ExchangeRequestService;
 import com.team5.bookexchange.service.ImageService;
 import com.team5.bookexchange.service.RedisService;
+import com.team5.bookexchange.entity.Member;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -76,10 +77,17 @@ public class BookController {
             HttpSession session) {
 
         // 로그인하지 않았다면 저장하지 않고 로그인 화면으로 이동
-        if (session.getAttribute("loginMember") == null) {
+        Member loginMember =
+                (Member) session.getAttribute("loginMember");
+
+        if (loginMember == null) {
             return "redirect:/login";
         }
+
         Book book = new Book();
+
+        // 로그인한 회원을 게시글 작성자로 저장
+        book.setOwnerId(loginMember.getId());
 
         book.setTitle(title);
         book.setAuthor(author);
@@ -125,15 +133,41 @@ public class BookController {
             @PathVariable Long id,
             HttpSession session) {
 
-        if (session.getAttribute("loginMember") == null) {
+        Member loginMember =
+                (Member) session.getAttribute("loginMember");
+
+        if (loginMember == null) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body("LOGIN_REQUIRED");
         }
 
-        bookService.findById(id);
+        Book book = bookService.findById(id);
+
+        // 작성자 정보가 없는 기존 게시글은 요청 차단
+        if (book.getOwnerId() == null) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("작성자 정보가 없는 게시글입니다.");
+        }
+
+        // 자신의 게시글에는 교환 요청 불가
+        if (book.getOwnerId().equals(loginMember.getId())) {
+            return ResponseEntity
+                    .status(HttpStatus.FORBIDDEN)
+                    .body("자신의 게시글에는 교환을 요청할 수 없습니다.");
+        }
+
+        // 교환 가능한 도서인지 확인
+        if (!"AVAILABLE".equals(book.getStatus())) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("현재 교환 요청이 가능한 도서가 아닙니다.");
+        }
+
         exchangeRequestService.create(id);
         bookService.updateStatus(id, "REQUESTED");
+
         return ResponseEntity.ok("교환 요청이 완료되었습니다.");
     }
 
