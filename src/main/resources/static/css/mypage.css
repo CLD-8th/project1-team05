@@ -289,3 +289,21 @@
 .status.rejected {
     background: #f8e8e8;
 }
+
+.exchange-item {
+    padding: 14px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.exchange-item:first-of-type {
+    padding-top: 8px;
+}
+
+.exchange-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.exchange-item p {
+    margin: 5px 0;
+}
