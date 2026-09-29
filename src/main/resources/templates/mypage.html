@@ -166,6 +166,11 @@
                         교환 요청 중
                     </span>
 
+                    <span class="status rejected"
+                          th:if="${book.status == 'REJECTED'}">
+                        요청 거절
+                    </span>
+
                     <span class="status"
                           th:if="${book.status == 'EXCHANGED'}">
                         교환 완료

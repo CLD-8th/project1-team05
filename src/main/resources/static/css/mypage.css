@@ -285,3 +285,7 @@
         grid-template-columns: 1fr;
     }
 }
+
+.status.rejected {
+    background: #f8e8e8;
+}
