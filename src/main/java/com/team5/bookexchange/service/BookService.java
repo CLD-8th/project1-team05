@@ -59,15 +59,15 @@ public class BookService {
     }
 
     // 도서 상태 변경
-    public void updateStatus(Long id, String status) {
+        public void updateStatus(Long id, String status) {
 
-        Book book = bookRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("도서를 찾을 수 없습니다.")
-                );
+            Book book = bookRepository.findById(id)
+                    .orElseThrow(() ->
+                            new RuntimeException("도서를 찾을 수 없습니다.")
+                    );
 
-        book.setStatus(status);
-        bookRepository.save(book);
+            book.setStatus(status);
+            bookRepository.save(book);
 
         // DB 내용이 변경됐으므로 기존 Redis 캐시 삭제
         redisService.deleteBookCache(id);

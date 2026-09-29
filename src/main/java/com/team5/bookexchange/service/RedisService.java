@@ -5,6 +5,7 @@ import tools.jackson.databind.ObjectMapper;
 import com.team5.bookexchange.dto.BookCache;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import java.time.Duration;
 
 @Service
 public class RedisService {
@@ -50,7 +51,7 @@ public class RedisService {
         try {
             String json = objectMapper.writeValueAsString(bookCache);
 
-            redisTemplate.opsForValue().set(key, json);
+            redisTemplate.opsForValue().set(key, json,Duration.ofMinutes(30));
 
         } catch (JacksonException e) {
             throw new RuntimeException("Redis 캐시 저장 실패", e);

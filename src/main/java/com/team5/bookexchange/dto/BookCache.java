@@ -11,6 +11,7 @@ import lombok.Setter;
 public class BookCache {
 
     private Long id;
+    private Long ownerId;
     private String title;
     private String author;
     private String description;
@@ -19,6 +20,7 @@ public class BookCache {
 
     public BookCache(Book book) {
         this.id = book.getId();
+        this.ownerId = book.getOwnerId();
         this.title = book.getTitle();
         this.author = book.getAuthor();
         this.description = book.getDescription();
@@ -30,6 +32,7 @@ public class BookCache {
         Book book = new Book();
 
         book.setId(id);
+        book.setOwnerId(ownerId); // 추가
         book.setTitle(title);
         book.setAuthor(author);
         book.setDescription(description);

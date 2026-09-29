@@ -16,6 +16,9 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 이 게시글을 등록한 회원의 ID
+    private Long ownerId;
+
     private String title;
 
     private String author;
