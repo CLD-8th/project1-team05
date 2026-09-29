@@ -30,14 +30,16 @@
             <a href="/">홈</a>
             <a href="/books">도서 목록</a>
 
-            <!-- 로그인한 사용자만 도서 등록 표시 -->
+            <!-- 로그인한 사용자에게만 표시 -->
             <a href="/books/new"
                th:if="${session.loginMember != null}">
                 도서 등록
             </a>
+
         </nav>
 
-        <!-- 로그인 전 -->
+
+        <!-- 로그인하지 않은 상태 -->
         <div class="header-auth"
              th:if="${session.loginMember == null}">
 
@@ -46,7 +48,8 @@
 
         </div>
 
-        <!-- 로그인 후 -->
+
+        <!-- 로그인한 상태 -->
         <div class="header-auth"
              th:if="${session.loginMember != null}">
 
@@ -55,6 +58,8 @@
                     사용자
                 </strong>님
             </span>
+
+            <a href="/mypage">마이페이지</a>
 
             <a href="/logout">로그아웃</a>
 

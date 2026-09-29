@@ -25,22 +25,39 @@
             <a href="/">홈</a>
             <a href="/books">도서 목록</a>
 
+            <!-- 로그인한 사용자에게만 표시 -->
             <a href="/books/new"
                th:if="${session.loginMember != null}">
                 도서 등록
             </a>
+
         </nav>
 
-        <div class="header-auth" th:if="${session.loginMember == null}">
+
+        <!-- 로그인하지 않은 상태 -->
+        <div class="header-auth"
+             th:if="${session.loginMember == null}">
+
             <a href="/login">로그인</a>
             <a href="/signup">회원가입</a>
+
         </div>
 
-        <div class="header-auth" th:if="${session.loginMember != null}">
+
+        <!-- 로그인한 상태 -->
+        <div class="header-auth"
+             th:if="${session.loginMember != null}">
+
             <span>
-                <strong th:text="${session.loginMember.name}">사용자</strong>님
+                <strong th:text="${session.loginMember.name}">
+                    사용자
+                </strong>님
             </span>
+
+            <a href="/mypage">마이페이지</a>
+
             <a href="/logout">로그아웃</a>
+
         </div>
 
     </div>
@@ -75,6 +92,7 @@
             <a class="button button-secondary" href="/books/new">
                 ＋ 도서 등록하기
             </a>
+
 
         </div>
 
