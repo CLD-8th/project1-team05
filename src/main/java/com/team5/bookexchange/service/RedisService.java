@@ -5,6 +5,7 @@ import tools.jackson.databind.ObjectMapper;
 import com.team5.bookexchange.dto.BookCache;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import com.team5.bookexchange.dto.LatestBookIdsCache;
 import java.time.Duration;
 
 @Service
@@ -45,13 +46,21 @@ public class RedisService {
 
     // 도서 상세 정보를 Redis에 저장
     public void saveBookCache(BookCache bookCache) {
+        saveBookCache(bookCache, false);
+    }
+
+    public void saveBookCache(BookCache bookCache, boolean latest) {
 
         String key = "book:" + bookCache.getId();
 
         try {
             String json = objectMapper.writeValueAsString(bookCache);
 
-            redisTemplate.opsForValue().set(key, json,Duration.ofMinutes(30));
+            if (latest) {
+                redisTemplate.opsForValue().set(key, json);
+            } else {
+                redisTemplate.opsForValue().set(key, json, Duration.ofMinutes(30));
+            }
 
         } catch (JacksonException e) {
             throw new RuntimeException("Redis 캐시 저장 실패", e);
@@ -92,4 +101,41 @@ public class RedisService {
 
         return Boolean.TRUE.equals(redisTemplate.hasKey(key));
     }
+
+    // 최신 상세 캐시 대상 ID 저장
+    public void saveLatestBookIdsCache(LatestBookIdsCache cache) {
+        String key = "books:latest:ids";
+
+        String json = objectMapper.writeValueAsString(cache);
+
+        redisTemplate.opsForValue().set(key, json);
+    }
+
+    // 최신 상세 캐시 대상 ID 조회
+    public LatestBookIdsCache getLatestBookIdsCache() {
+        String key = "books:latest:ids";
+
+        String json = redisTemplate.opsForValue().get(key);
+
+        if (json == null) {
+            return null;
+        }
+
+        return objectMapper.readValue(
+                json,
+                LatestBookIdsCache.class
+        );
+    }
+
+    public void deleteLatestBookIdsCache() {
+        String key = "books:latest:ids";
+
+        redisTemplate.delete(key);
+    }
+
+    // 최신 대상에서 벗어나더라도 상세 캐시를 바로 버리지 않는다.
+    public void expireBookCache(Long id) {
+        redisTemplate.expire("book:" + id, Duration.ofMinutes(30));
+    }
+
 }
