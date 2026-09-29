@@ -72,7 +72,7 @@
 ========================= */
 
 .book-cover {
-    height: 70%;
+    height: 60%;
     flex-shrink: 0;
 
     display: flex;
@@ -116,7 +116,7 @@
 ========================= */
 
 .book-info {
-    height: 30%;
+    height: 40%;
     padding: 14px 18px;
 
     display: flex;

@@ -31,7 +31,6 @@
                th:if="${session.loginMember != null}">
                 도서 등록
             </a>
-
         </nav>
 
 
@@ -206,26 +205,80 @@
     </section>
 
 
-    <!-- 교환 요청 자리 -->
+    <!-- 교환 요청 -->
     <section class="mypage-section">
 
         <div class="section-title">
             <div>
                 <h2>교환 요청</h2>
-                <p>내가 보낸 요청과 받은 요청을 관리합니다.</p>
+                <p>내가 보낸 요청과 받은 요청을 확인합니다.</p>
             </div>
         </div>
 
+
         <div class="exchange-grid">
 
+            <!-- ========================= -->
+            <!-- 내가 보낸 교환 요청 -->
+            <!-- ========================= -->
             <div class="exchange-card">
+
                 <strong>📤 내가 보낸 요청</strong>
-                <p>교환 요청 기능 연결 예정</p>
+
+                <!-- 보낸 요청 없음 -->
+                <p th:if="${#lists.isEmpty(sentExchanges)}">
+                    보낸 교환 요청이 없습니다.
+                </p>
+
+
+                <!-- 보낸 요청 있음 -->
+                <div class="exchange-item" th:each="exchange : ${sentExchanges}">
+                    <p>
+                        도서:
+                        <strong th:text="${exchange.bookTitle}">도서 제목</strong>
+                    </p>
+
+                    <p>
+                        상태:
+                        <span th:if="${exchange.status == 'AVAILABLE'}">교환 가능</span>
+                        <span th:if="${exchange.status == 'REQUESTED'}">교환 요청 중</span>
+                        <span th:if="${exchange.status == 'REJECTED'}">요청 거절</span>
+                        <span th:if="${exchange.status == 'EXCHANGED'}">교환 완료</span>
+                    </p>
+                </div>
+
             </div>
 
+
+            <!-- ========================= -->
+            <!-- 내가 받은 교환 요청 -->
+            <!-- ========================= -->
             <div class="exchange-card">
+
                 <strong>📥 내가 받은 요청</strong>
-                <p>교환 요청 기능 연결 예정</p>
+
+                <!-- 받은 요청 없음 -->
+                <p th:if="${#lists.isEmpty(receivedExchanges)}">
+                    받은 교환 요청이 없습니다.
+                </p>
+
+
+                <!-- 받은 요청 있음 -->
+                <div class="exchange-item" th:each="exchange : ${sentExchanges}">
+                    <p>
+                        도서:
+                        <strong th:text="${exchange.bookTitle}">도서 제목</strong>
+                    </p>
+
+                    <p>
+                        상태:
+                        <span th:if="${exchange.status == 'AVAILABLE'}">교환 가능</span>
+                        <span th:if="${exchange.status == 'REQUESTED'}">교환 요청 중</span>
+                        <span th:if="${exchange.status == 'REJECTED'}">요청 거절</span>
+                        <span th:if="${exchange.status == 'EXCHANGED'}">교환 완료</span>
+                    </p>
+                </div>
+
             </div>
 
         </div>
