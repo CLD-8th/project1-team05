@@ -262,9 +262,8 @@
                     받은 교환 요청이 없습니다.
                 </p>
 
-
                 <!-- 받은 요청 있음 -->
-                <div class="exchange-item" th:each="exchange : ${sentExchanges}">
+                <div class="exchange-item" th:each="exchange : ${receivedExchanges}">
                     <p>
                         도서:
                         <strong th:text="${exchange.bookTitle}">도서 제목</strong>
