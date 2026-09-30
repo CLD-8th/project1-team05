@@ -39,6 +39,10 @@ public class BookController {
 
     private static final Logger exchangeLog =
             LoggerFactory.getLogger("EXCHANGE_LOG");
+    private static final Logger warningLog =
+            LoggerFactory.getLogger("WARNING_LOG");
+    private static final Logger errorLog =
+            LoggerFactory.getLogger("ERROR_LOG");
 
     // 도서 목록
     @GetMapping
@@ -191,6 +195,14 @@ public class BookController {
                 book.getOwnerId(),
                 book.getId()
         );
+
+        if (redisService.isFrequentExchangeActivity(loginMember.getId())) {
+
+            warningLog.warn(
+                    "[FREQUENT_EXCHANGE_ACTIVITY] memberId={} action=REQUEST",
+                    loginMember.getId()
+            );
+        }
 
         return ResponseEntity.ok("교환 요청이 완료되었습니다.");
     }
