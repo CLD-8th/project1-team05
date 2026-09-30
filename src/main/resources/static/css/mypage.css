@@ -307,3 +307,47 @@
 .exchange-item p {
     margin: 5px 0;
 }
+
+/* =========================
+   교환 요청 상태 변경 버튼
+========================= */
+
+.exchange-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.exchange-actions form {
+    margin: 0;
+}
+
+.exchange-btn {
+    padding: 7px 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* 수락 */
+.exchange-btn.accept {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.exchange-btn.accept:hover {
+    background: #d5ecd7;
+}
+
+/* 거절 */
+.exchange-btn.reject {
+    background: #fbe9e9;
+    color: #c62828;
+}
+
+.exchange-btn.reject:hover {
+    background: #f3d4d4;
+}
