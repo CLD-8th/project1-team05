@@ -49,7 +49,7 @@ public class BookController {
 
         var viewCounts = new java.util.HashMap<Long, Long>();
 
-        for (Book book : books) {
+        for (var book : books) {
             viewCounts.put(
                     book.getId(),
                     redisService.getViewCount(book.getId())

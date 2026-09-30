@@ -144,12 +144,6 @@
                     <strong th:text="${viewCounts[book.id]} + '회'">0회</strong>
                 </p>
 
-                <p
-                        class="description"
-                        th:text="${book.description}">
-                    도서 설명
-                </p>
-
                 <a
                         class="detail-link"
                         th:href="@{/books/{id}(id=${book.id})}">

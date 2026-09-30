@@ -52,33 +52,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
-
-async function resetCache(bookId) {
-
-    try {
-        const response = await fetch(`/books/${bookId}/cache/reset`, {
-            method: "POST"
-        });
-
-        if (!response.ok) {
-            alert("캐시 초기화에 실패했습니다.");
-            return;
-        }
-
-        alert(
-            "Redis 캐시를 초기화했습니다.\n\n" +
-            "현재 도서의 상세 캐시가 삭제되었습니다.\n" +
-            "이제 페이지를 다시 조회하여 MISS 과정을 확인합니다."
-        );
-
-        // 다시 상세 페이지를 요청
-        // Redis에 캐시가 없으므로 MISS 발생
-        location.reload();
-
-    } catch (error) {
-
-        console.error("Redis 캐시 초기화 실패:", error);
-
-        alert("캐시 초기화 중 오류가 발생했습니다.");
-    }
-}
