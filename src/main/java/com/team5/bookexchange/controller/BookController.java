@@ -165,7 +165,7 @@ public class BookController {
                     .body("현재 교환 요청이 가능한 도서가 아닙니다.");
         }
 
-        exchangeRequestService.create(id);
+        exchangeRequestService.create(id,loginMember.getId());
         bookService.updateStatus(id, "REQUESTED");
 
         return ResponseEntity.ok("교환 요청이 완료되었습니다.");

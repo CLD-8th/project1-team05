@@ -1,6 +1,8 @@
 package com.team5.bookexchange.service;
 
+import com.team5.bookexchange.entity.Book;
 import com.team5.bookexchange.entity.ExchangeRequest;
+import com.team5.bookexchange.repository.BookRepository;
 import com.team5.bookexchange.repository.ExchangeRequestRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,20 +12,23 @@ import java.util.List;
 public class ExchangeRequestService {
 
     private final ExchangeRequestRepository exchangeRequestRepository;
+    private final BookRepository bookRepository;
 
     public ExchangeRequestService(
-            ExchangeRequestRepository exchangeRequestRepository) {
+            ExchangeRequestRepository exchangeRequestRepository, BookRepository bookRepository) {
 
         this.exchangeRequestRepository = exchangeRequestRepository;
+        this.bookRepository = bookRepository;
     }
 
     // 교환 요청 생성
-    public ExchangeRequest create(Long bookId) {
+    public ExchangeRequest create(Long bookId, Long requesterId) {
 
         ExchangeRequest request = new ExchangeRequest();
 
         request.setBookId(bookId);
         request.setStatus("PENDING");
+        request.setRequesterId(requesterId);
 
         return exchangeRequestRepository.save(request);
     }
@@ -48,5 +53,17 @@ public class ExchangeRequestService {
     public List<ExchangeRequest> findAll() {
 
         return exchangeRequestRepository.findAll();
+    }
+
+    //내가 보낸 교환 요청
+    public List<ExchangeRequest> findSent(Long userId) {
+        return exchangeRequestRepository.findByRequesterIdOrderByIdDesc(userId);
+    }
+    //받은 교환 요청
+    public List<ExchangeRequest> findReceived(Long userId) {
+        List<Long> bookIds = bookRepository.findAllByOwnerId(userId).stream()
+                .map(Book::getId).toList();
+
+        return exchangeRequestRepository.findByBookIdInOrderByIdDesc(bookIds);
     }
 }

@@ -19,4 +19,6 @@ public class ExchangeRequest {
     private Long bookId;
 
     private String status;
+
+    private Long requesterId;
 }
