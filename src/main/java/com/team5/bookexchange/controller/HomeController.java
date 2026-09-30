@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,11 +61,44 @@ public class HomeController {
             );
         }
 
+        // =========================
+        // 조회수 TOP 10
+        // =========================
+
+        // Redis Sorted Set에서 조회수 순으로 도서 ID 조회
+        List<Long> top10BookIds = redisService.getTop10BookIds();
+
+        // Redis의 랭킹 순서를 그대로 유지
+        List<Book> top10Books = new ArrayList<>();
+
+        for (Long bookId : top10BookIds) {
+
+            books.stream()
+                    .filter(book -> book.getId().equals(bookId))
+                    .findFirst()
+                    .ifPresent(book -> {
+
+                        // TOP 10 도서 목록에 추가
+                        top10Books.add(book);
+
+                        // 해당 도서의 실제 조회수도 Redis에서 가져오기
+                        viewCounts.put(
+                                book.getId(),
+                                redisService.getViewCount(book.getId())
+                        );
+                    });
+        }
+
+        // =========================
+
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("availableCount", availableCount);
         model.addAttribute("requestedCount", requestedCount);
         model.addAttribute("recentBooks", recentBooks);
         model.addAttribute("viewCounts", viewCounts);
+
+        // TOP 10 도서
+        model.addAttribute("top10Books", top10Books);
 
         return "index";
     }
