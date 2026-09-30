@@ -42,6 +42,7 @@ services:
       REDIS_PORT: 6379
     volumes:
       - upload-data:/app/uploads
+      - /var/log/bookexchange:/app/logs
     depends_on:
       mysql:
         condition: service_healthy
