@@ -281,6 +281,66 @@
                         <span th:if="${exchange.status == 'REJECTED'}">요청 거절</span>
                         <span th:if="${exchange.status == 'EXCHANGED'}">교환 완료</span>
                     </p>
+
+                    <!-- 교환 요청 중 -->
+                    <div class="exchange-actions"
+                         th:if="${exchange.status == 'REQUESTED'}">
+
+                        <form th:action="@{/mypage/exchanges/{bookId}/status(bookId=${exchange.bookId})}"
+                              method="post">
+                            <button class="exchange-btn accept"
+                                    type="submit"
+                                    name="status"
+                                    value="EXCHANGED">
+                                수락
+                            </button>
+                        </form>
+
+                        <form th:action="@{/mypage/exchanges/{bookId}/status(bookId=${exchange.bookId})}"
+                              method="post">
+                            <button class="exchange-btn reject"
+                                    type="submit"
+                                    name="status"
+                                    value="REJECTED">
+                                거절
+                            </button>
+                        </form>
+
+                    </div>
+
+
+                    <!-- 거절 상태 -->
+                    <div class="exchange-actions"
+                         th:if="${exchange.status == 'REJECTED'}">
+
+                        <form th:action="@{/mypage/exchanges/{bookId}/status(bookId=${exchange.bookId})}"
+                              method="post">
+                            <button class="exchange-btn accept"
+                                    type="submit"
+                                    name="status"
+                                    value="EXCHANGED">
+                                수락으로 변경
+                            </button>
+                        </form>
+
+                    </div>
+
+
+                    <!-- 교환 완료 상태 -->
+                    <div class="exchange-actions"
+                         th:if="${exchange.status == 'EXCHANGED'}">
+
+                        <form th:action="@{/mypage/exchanges/{bookId}/status(bookId=${exchange.bookId})}"
+                              method="post">
+                            <button class="exchange-btn reject"
+                                    type="submit"
+                                    name="status"
+                                    value="REJECTED">
+                                거절로 변경
+                            </button>
+                        </form>
+
+                    </div>
                 </div>
 
             </div>

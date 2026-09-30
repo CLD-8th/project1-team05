@@ -7,6 +7,10 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import com.team5.bookexchange.entity.Book;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MyPageController {
@@ -58,5 +62,37 @@ public class MyPageController {
         );
 
         return "mypage";
+    }
+
+    @PostMapping("/mypage/exchanges/{bookId}/status")
+    public String updateExchangeStatus(
+            @PathVariable Long bookId,
+            @RequestParam String status,
+            HttpSession session) {
+
+        Member loginMember =
+                (Member) session.getAttribute("loginMember");
+
+        if (loginMember == null) {
+            return "redirect:/login";
+        }
+
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow();
+
+        // 내가 등록한 책인지 확인
+        if (!book.getOwnerId().equals(loginMember.getId())) {
+            return "redirect:/mypage";
+        }
+
+        // 허용할 상태만 변경
+        if ("EXCHANGED".equals(status)
+                || "REJECTED".equals(status)) {
+
+            book.setStatus(status);
+            bookRepository.save(book);
+        }
+
+        return "redirect:/mypage";
     }
 }
