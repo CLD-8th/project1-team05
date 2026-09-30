@@ -1,6 +1,7 @@
 package com.team5.bookexchange.controller;
 
 import com.team5.bookexchange.entity.Member;
+import com.team5.bookexchange.service.BookService;
 import com.team5.bookexchange.repository.BookRepository;
 import com.team5.bookexchange.repository.ExchangeRepository;
 import jakarta.servlet.http.HttpSession;
@@ -15,12 +16,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MyPageController {
 
+    private final BookService bookService;
     private final BookRepository bookRepository;
     private final ExchangeRepository exchangeRepository;
 
     public MyPageController(
             BookRepository bookRepository,
-            ExchangeRepository exchangeRepository) {
+            ExchangeRepository exchangeRepository,
+            BookService bookService) {
+        this.bookService = bookService;
 
         this.bookRepository = bookRepository;
         this.exchangeRepository = exchangeRepository;
@@ -89,8 +93,7 @@ public class MyPageController {
         if ("EXCHANGED".equals(status)
                 || "REJECTED".equals(status)) {
 
-            book.setStatus(status);
-            bookRepository.save(book);
+            bookService.updateStatus(bookId, status);
         }
 
         return "redirect:/mypage";
