@@ -6,6 +6,8 @@ import com.team5.bookexchange.service.ExchangeService;
 import com.team5.bookexchange.service.ImageService;
 import com.team5.bookexchange.service.RedisService;
 import com.team5.bookexchange.entity.Member;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +36,9 @@ public class BookController {
         this.redisService = redisService;
         this.exchangeService = exchangeService;
     }
+
+    private static final Logger exchangeLog =
+            LoggerFactory.getLogger("EXCHANGE_LOG");
 
     // 도서 목록
     @GetMapping
@@ -182,6 +187,13 @@ public class BookController {
         );
 
         bookService.requestExchange(id);
+
+        exchangeLog.info(
+                "[REQUEST] requesterId={} receiverId={} bookId={}",
+                loginMember.getId(),
+                book.getOwnerId(),
+                book.getId()
+        );
 
         return ResponseEntity.ok("교환 요청이 완료되었습니다.");
     }
