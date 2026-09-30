@@ -68,6 +68,12 @@ public class ExchangeController {
                 loginMember.getId()
         );
 
+        exchangeLog.info(
+                "[ACCEPT] receiverId={} bookId={}",
+                loginMember.getId(),
+                bookId
+        );
+
         return "redirect:/exchanges";
     }
 
