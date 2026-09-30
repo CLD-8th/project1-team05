@@ -233,6 +233,55 @@
 
 </main>
 
+<!-- 조회수 TOP 10 사이드 랭킹 -->
+<aside class="ranking-panel"
+       th:if="${!#lists.isEmpty(top10Books)}">
+
+    <div class="ranking-header">
+        <strong>조회수 TOP 10</strong>
+        <span>Redis Ranking</span>
+    </div>
+
+    <div class="ranking-list">
+
+        <a class="ranking-item"
+           th:each="book, stat : ${top10Books}"
+           th:href="@{/books/{id}(id=${book.id})}">
+
+            <span class="ranking-number"
+                  th:text="${stat.count}">
+                1
+            </span>
+
+            <div class="ranking-book">
+
+                <strong th:text="${book.title}">
+                    도서 제목
+                </strong>
+
+                <div class="ranking-meta">
+
+                <span th:text="${book.author}">
+                    저자
+                </span>
+
+                            <span class="ranking-views">
+                    조회수
+                    <b th:text="${viewCounts[book.id]} + '회'">
+                        0회
+                    </b>
+                </span>
+            </div>
+
+            </div>
+
+            <span class="ranking-arrow">›</span>
+
+        </a>
+
+    </div>
+
+</aside>
 
 <footer>
 
@@ -249,6 +298,7 @@
     </div>
 
 </footer>
+
 
 </body>
 </html>

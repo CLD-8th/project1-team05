@@ -118,21 +118,18 @@ public class BookController {
     @GetMapping("/{id}")
     public String detail(@PathVariable Long id, Model model) {
 
-        // 상세 조회 전에 Redis 캐시 존재 여부 확인
-        boolean cacheHit = redisService.hasBookCache(id);
-
-        // 실제 상세 조회
+        // 도서 정보는 MySQL에서 조회
         Book book = bookService.findById(id);
 
-        // 상세 페이지 접속이므로 조회수 +1
+        // 조회수는 Redis에서 관리
         Long viewCount = redisService.increaseViewCount(id);
 
         model.addAttribute("book", book);
         model.addAttribute("viewCount", viewCount);
-        model.addAttribute("cacheHit", cacheHit);
 
         return "book-detail";
     }
+
 
     // 교환 요청
     @PostMapping("/{id}/exchange")
@@ -186,12 +183,4 @@ public class BookController {
         return ResponseEntity.ok("교환 요청이 완료되었습니다.");
     }
 
-    @PostMapping("/{id}/cache/reset")
-    @ResponseBody
-    public String resetCache(@PathVariable Long id) {
-
-        redisService.deleteBookCache(id);
-
-        return "OK";
-    }
 }
