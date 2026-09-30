@@ -128,4 +128,21 @@ public class RedisService {
     private String blockKey(String version, int block) {
         return "books:list:v2:block:" + version + ":" + block;
     }
+
+    // 처음 교환 신청이 입력되면 1분간 감지 진행
+    public boolean isFrequentExchangeActivity(Long memberId) {
+
+        String key = "exchange:activity:" + memberId;
+
+        Long count = redisTemplate.opsForValue().increment(key);
+
+        if (count != null && count == 1) {
+            redisTemplate.expire(
+                    key,
+                    Duration.ofSeconds(60)
+            );
+        }
+
+        return count != null && count >= 5;
+    }
 }
