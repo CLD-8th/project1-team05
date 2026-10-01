@@ -133,6 +133,12 @@
                 </span>
 
                     <span
+                            class="status rejected"
+                            th:if="${exchange.status == 'REJECTED'}">
+                    요청 거절
+                </span>
+
+                    <span
                             class="status available"
                             th:if="${exchange.status == 'EXCHANGED'}">
                     교환 완료
